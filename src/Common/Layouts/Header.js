@@ -5,6 +5,7 @@ import NotificationsUI from "./NotificationsUI";
 import moment from "moment";
 import axios from "axios";
 import {APIConfig} from "../Configurations/APIConfig";
+import NoticeBar from "../../Pages/NoticeBar";
 export default function Header(props) {
   const [username, setUserName] = useState(localStorage.getItem("name"));
   const navigate = useNavigate();
@@ -54,15 +55,7 @@ export default function Header(props) {
           <div className="d-flex">
             {/* LOGO */}
             <div className="navbar-brand-box horizontal-logo">
-              <b>
-                Current Date and Time :{" "}
-                {moment(new Date()).format("Do MMM YYYY, h:mm a")}
-              </b>
-              <Link to="/" className="logo logo-dark">
-                <span className="logo-sm">
-                  <img src="/assets/images/logo-sm.png" alt height={22} />
-                </span>
-              </Link>
+            <NoticeBar />
             </div>
           </div>
           <div className="d-flex align-items-center">

@@ -24,7 +24,7 @@ export default function NoticeBar() {
   return (
     <div
       className="alert alert-danger alert-dismissible fade show"
-      role="alert" style={{"minWidth":'500px'}}
+      role="alert" style={{"minWidth":'1000px'}}
     >
       <strong> Note : </strong><b>{messageData.description}</b>
       <button

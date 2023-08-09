@@ -59,7 +59,7 @@ export default function Tickets() {
       axios
         .post(APIConfig.APIACTIVATEURL + APIConfig.CLOSETICKET, formData)
         .then((response) => {
-          console.log(response);
+            GetTickets("1");
         });
   };
 
@@ -184,13 +184,13 @@ export default function Tickets() {
                                 <td>{ticket.name}</td>
                                 <td>{ticket.ticketQuery}</td>
                                 <td>
-                                  {ticket.ticketStatus === TicketStatus.OPEN ? (
-                                    <span className="badge bg-success">
-                                      {TicketStatus.OPEN}
+                                  {ticket.ticketStatus === TicketStatus.CLOSED ? (
+                                    <span className="badge bg-danger">
+                                      {ticket.ticketStatus}
                                     </span>
                                   ) : (
                                     <span className="badge bg-warning">
-                                      {TicketStatus.PENDING}
+                                      {ticket.ticketStatus}
                                     </span>
                                   )}
                                 </td>
