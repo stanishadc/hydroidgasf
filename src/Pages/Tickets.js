@@ -164,8 +164,8 @@ export default function Tickets() {
                             <th data-ordering="false">Category</th>
                             <th data-ordering="false">Name</th>
                             <th data-ordering="false">Query</th>
-                            <th data-ordering="false">Priority</th>
                             <th>Status</th>
+                            <th data-ordering="false">Priority</th>
                             <th>Action</th>
                           </tr>
                         </thead>

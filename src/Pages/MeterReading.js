@@ -50,7 +50,7 @@ export default function MeterReading() {
               },
             },
             png: {
-              filename: "Water-Usage-Daily",
+              filename: "Gas-Usage-Daily",
             },
           },
           autoSelected: "zoom",
@@ -62,7 +62,7 @@ export default function MeterReading() {
     };
     var series = [
       {
-        name: "water usage",
+        name: "gas usage",
         data: barGraphSeries, //[30, 40, 35, 50, 49, 60, 70, 91, 125]
       },
     ];

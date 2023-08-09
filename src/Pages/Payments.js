@@ -140,7 +140,7 @@ export default function Payments() {
             amount: amount,
             currency: currency,
             name: "ino-fi solutions pvt ltd.",
-            description: "Water Bill Payment",
+            description: "Gas Bill Payment",
             order_id: order_id,
             handler: async function (response) {
                 const data = {

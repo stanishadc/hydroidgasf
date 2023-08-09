@@ -39,8 +39,8 @@ export default function Payment() {
             key: APIConfig.RAZORPAY_KEY_ID,
             amount: amount,
             currency: currency,
-            name: "Soumya Corp.",
-            description: "Test Transaction",
+            name: "ino-fi solutions pvt ltd.",
+            description: "Gas Recharge",
             order_id: order_id,
             handler: async function (response) {
                 const data = {
@@ -57,7 +57,7 @@ export default function Payment() {
                 contact: "9999999999",
             },
             notes: {
-                address: "Hydroid Water Meter",
+                address: "Hydroid Gas Meter",
             },
             theme: {
                 color: "#61dafb",

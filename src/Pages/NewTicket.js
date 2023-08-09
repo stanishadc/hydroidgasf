@@ -330,9 +330,9 @@ export default function NewTicket() {
                             <th data-ordering="false">ID</th>
                             <th data-ordering="false">TicketNo</th>
                             <th data-ordering="false">Category</th>
-                            <th data-ordering="false">Query</th>
-                            <th data-ordering="false">Priority</th>
+                            <th data-ordering="false">Query</th>                            
                             <th>Status</th>
+                            <th data-ordering="false">Priority</th>
                             <th>Action</th>
                           </tr>
                         </thead>
