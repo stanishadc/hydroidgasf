@@ -6,20 +6,49 @@
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
 }
 .ovr-nav-links {
-  border-bottom: 1px solid #add1eb;
+  border-bottom: 1px dashed #add1eb;
 }
 .ovr-nav-links:hover {
-  color: #add1eb;
+  color: #cae4f7;
   font-weight: 600;
 }
 .ovr-adminBackground {
-  background-color: #89cdf5;
+  background-color: #f7fcff;
 }
 .ovr-adminHeading {
-  color: #fff;
+  color: #000000;
   text-shadow: 0px 0px 1px rgb(182, 182, 182);
   font-size: 35px;
 }
 .ovr-adminCaption {
   color: #000000;
+}
+.ovr-cardBody {
+  box-shadow: 0px 0px 5px rgb(196, 196, 196);
+  border-radius: 10px;
+}
+
+.ovr-admin-card-caption {
+  color: rgb(89, 189, 255);
+}
+.loginBackgroundImage {
+  height: 60vh;
+  width: 100%;
+  object-fit: cover;
+}
+.loginHeading {
+  color: #000000;
+  font-size: 40px;
+  border-radius: 20px;
+}
+.loginCaption {
+  color: #838383;
+}
+.loginSeparation {
+  border-top: 1px dashed rgb(206, 206, 206);
+  padding-top: 20px;
+}
+.loginBox {
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px rgb(151, 151, 151);
 }
