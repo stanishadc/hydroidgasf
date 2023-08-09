@@ -1,31 +1,18 @@
 import { Link } from "react-router-dom";
-
+import moment from 'moment';
 export default function Header() {
     return (
         <div className="app-menu navbar-menu">
             {/* LOGO */}
             <div className="navbar-brand-box">
                 {/* Dark Logo*/}
-                <Link to="/" className="logo logo-dark">
-                    <span className="logo-sm">
-                        <img src="/assets/images/logo-sm.png" alt height={22} />
-                    </span>
+                <Link to="/" className="logo logo-dark">                    
                     <span className="logo-lg">
                         <img src="/assets/images/logo-dark.png" alt height={17} />
                     </span>
                 </Link>
-                {/* Light Logo*/}
-                <Link to="/" className="logo logo-light">
-                    <span className="logo-sm">
-                        <img src="/assets/images/logo-sm.png" alt height={22} />
-                    </span>
-                    <span className="logo-lg">
-                        <img src="/assets/images/logo-light.png" alt height={17} />
-                    </span>
-                </Link>
-                <button type="button" className="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
-                    <i className="ri-record-circle-line" />
-                </button>
+                <br/>
+                {moment(new Date()).format("Do MMM YYYY, h:mm a")}
             </div>
             <div id="scrollbar">
                 <div className="container-fluid">

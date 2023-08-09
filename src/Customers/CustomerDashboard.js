@@ -9,7 +9,7 @@ import axios from "axios";
 import moment from "moment";
 import { APIConfig } from "../Common/Configurations/APIConfig";
 import { Link } from "react-router-dom";
-import NoticeBar from "../Pages/NoticeBar"
+
 export default function CustomerDashboard() {
   const [crmdate, setCRMDate] = useState(new Date());
   const [barGraphLabels, setBarGraphLabels] = useState([]);
@@ -151,12 +151,6 @@ export default function CustomerDashboard() {
               <div className="col">
                 <div className="h-100">
                   <div className="row mb-3 pb-1">
-                    <div className="col-12">
-                      <div className="d-flex align-items-lg-center flex-lg-row flex-column">
-                        <NoticeBar />
-                      </div>
-                      {/* end card header */}
-                    </div>
                     <div className="col-12">
                       <div className="d-flex align-items-lg-center flex-lg-row flex-column">
                         <div className="flex-grow-1">
