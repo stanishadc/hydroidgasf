@@ -198,7 +198,7 @@ export default function AdminDashboard() {
                         <div className="card-body ovr-cardBody">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
-                              <p className="text-uppercase fw-medium text-muted text-truncate mb-0 ">
+                              <p className="text-uppercase fw-medium ovr-admin-card-caption text-truncate mb-0 ">
                                 Last 24 Hours Usage
                               </p>
                             </div>
@@ -230,10 +230,10 @@ export default function AdminDashboard() {
                     <div className="col-xl-3 col-md-6">
                       {/* card */}
                       <div className="card card-animate">
-                        <div className="card-body">
+                        <div className="card-body ovr-cardBody">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
-                              <p className="text-uppercase fw-medium text-muted text-truncate mb-0">
+                              <p className="text-uppercase fw-medium ovr-admin-card-caption text-truncate mb-0">
                                 Current Week Usage
                               </p>
                             </div>
@@ -265,10 +265,10 @@ export default function AdminDashboard() {
                     <div className="col-xl-3 col-md-6">
                       {/* card */}
                       <div className="card card-animate">
-                        <div className="card-body">
+                        <div className="card-body ovr-cardBody">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
-                              <p className="text-uppercase fw-medium text-muted text-truncate mb-0">
+                              <p className="text-uppercase fw-medium ovr-admin-card-caption text-truncate mb-0">
                                 Current Month Usage
                               </p>
                             </div>
@@ -299,10 +299,10 @@ export default function AdminDashboard() {
                     <div className="col-xl-3 col-md-6">
                       {/* card */}
                       <div className="card card-animate">
-                        <div className="card-body">
+                        <div className="card-body ovr-cardBody">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
-                              <p className="text-uppercase fw-medium text-muted text-truncate mb-0">
+                              <p className="text-uppercase fw-medium ovr-admin-card-caption text-truncate mb-0">
                                 {' '}
                                 Leaks
                               </p>
@@ -336,10 +336,10 @@ export default function AdminDashboard() {
                     <div className="col-xl-3 col-md-6">
                       {/* card */}
                       <div className="card card-animate">
-                        <div className="card-body">
+                        <div className="card-body ovr-cardBody">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
-                              <p className="text-uppercase fw-medium text-muted text-truncate mb-0">
+                              <p className="text-uppercase fw-medium ovr-admin-card-caption text-truncate mb-0">
                                 {' '}
                                 Open Tickets
                               </p>
@@ -372,10 +372,10 @@ export default function AdminDashboard() {
                     <div className="col-xl-3 col-md-6">
                       {/* card */}
                       <div className="card card-animate">
-                        <div className="card-body">
+                        <div className="card-body ovr-cardBody">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
-                              <p className="text-uppercase fw-medium text-muted text-truncate mb-0">
+                              <p className="text-uppercase fw-medium ovr-admin-card-caption text-truncate mb-0">
                                 Today's Transactions
                               </p>
                             </div>
@@ -407,10 +407,10 @@ export default function AdminDashboard() {
                     <div className="col-xl-3 col-md-6">
                       {/* card */}
                       <div className="card card-animate">
-                        <div className="card-body">
+                        <div className="card-body ovr-cardBody">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
-                              <p className="text-uppercase fw-medium text-muted text-truncate mb-0">
+                              <p className="text-uppercase fw-medium ovr-admin-card-caption text-truncate mb-0">
                                 Users
                               </p>
                             </div>
@@ -442,10 +442,10 @@ export default function AdminDashboard() {
                     <div className="col-xl-3 col-md-6">
                       {/* card */}
                       <div className="card card-animate">
-                        <div className="card-body">
+                        <div className="card-body ovr-cardBody">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
-                              <p className="text-uppercase fw-medium text-muted text-truncate mb-0">
+                              <p className="text-uppercase fw-medium ovr-admin-card-caption text-truncate mb-0">
                                 Active Devices
                               </p>
                             </div>
@@ -521,7 +521,7 @@ export default function AdminDashboard() {
                         </div>
                         {/* end card header */}
 
-                        <div className="card-body p-0 pb-2">
+                        <div className="card-body ovr-cardBody p-0 pb-2">
                           <div className="w-100">
                             <GasConsumptionHourly
                               type="bar"
