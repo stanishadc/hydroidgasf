@@ -178,7 +178,7 @@ export default function AdminDashboard() {
                               <Link
                                 to={'/users'}
                                 type="button"
-                                className="btn btn-soft-success"
+                                className="btn btn-success"
                               >
                                 <i className="ri-add-circle-line align-middle me-1" />{' '}
                                 Add User
@@ -194,30 +194,36 @@ export default function AdminDashboard() {
                   <div className="row">
                     <div className="col-xl-3 col-md-6">
                       {/* card */}
-                      <div className="card card-animate">
+                      <div className="card card-animate Last-24-Hours-Usage">
                         <div className="card-body ovr-cardBody">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
-                              <p className="text-uppercase fw-medium ovr-admin-card-caption text-truncate mb-0 ">
+                              <p className="text-uppercase fw-medium ovr-admin-card-caption text-truncate mb-0">
                                 Last 24 Hours Usage
                               </p>
                             </div>
                           </div>
                           <div className="d-flex align-items-end justify-content-between mt-4">
                             <div>
-                              <h4 className="fs-22 fw-semibold ff-secondary mb-4">
+                              <h4 className="fs-22 fw-semibold ff-secondary mb-4 card-data-color">
                                 <CountUp end={last24hours} /> Kgs
                               </h4>
                               <Link
                                 to={'/meterreading'}
-                                className="text-decoration-underline"
+                                className="text-decoration-underline card-data-color"
                               >
                                 View Meter Reading
                               </Link>
                             </div>
                             <div className="avatar-sm flex-shrink-0">
                               <span className="avatar-title bg-soft-info rounded fs-3">
-                                <i className="ri-water-flash-fill text-success" />
+                                <div className="ovr-dashboard-icons_box">
+                                  <img
+                                    src="/assets/icons/24-hour.png"
+                                    alt="icon"
+                                    className="ovr-dashboard-icons"
+                                  ></img>
+                                </div>
                               </span>
                             </div>
                           </div>
@@ -229,7 +235,7 @@ export default function AdminDashboard() {
                     {/* end col */}
                     <div className="col-xl-3 col-md-6">
                       {/* card */}
-                      <div className="card card-animate">
+                      <div className="card card-animate Current-Week-Usage">
                         <div className="card-body ovr-cardBody">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
@@ -240,20 +246,24 @@ export default function AdminDashboard() {
                           </div>
                           <div className="d-flex align-items-end justify-content-between mt-4">
                             <div>
-                              <h4 className="fs-22 fw-semibold ff-secondary mb-4">
+                              <h4 className="fs-22 fw-semibold ff-secondary mb-4 card-data-color">
                                 <CountUp end={weeklyUsage} /> Kgs
                               </h4>
                               <Link
                                 to={'/meterreading'}
-                                className="text-decoration-underline"
+                                className="text-decoration-underline card-data-color"
                               >
                                 View Meter Reading
                               </Link>
                             </div>
                             <div className="avatar-sm flex-shrink-0">
-                              <span className="avatar-title bg-soft-warning rounded fs-3">
-                                <i className="ri-water-flash-fill text-primary" />
-                              </span>
+                              <div className="ovr-dashboard-icons_box">
+                                <img
+                                  src="/assets/icons/week.png"
+                                  alt="icon"
+                                  className="ovr-dashboard-icons"
+                                ></img>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -264,7 +274,7 @@ export default function AdminDashboard() {
                     {/* end col */}
                     <div className="col-xl-3 col-md-6">
                       {/* card */}
-                      <div className="card card-animate">
+                      <div className="card card-animate Curren-Month-Usage">
                         <div className="card-body ovr-cardBody">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
@@ -275,19 +285,25 @@ export default function AdminDashboard() {
                           </div>
                           <div className="d-flex align-items-end justify-content-between mt-4">
                             <div>
-                              <h4 className="fs-22 fw-semibold ff-secondary mb-4">
+                              <h4 className="fs-22 fw-semibold ff-secondary mb-4 card-data-color">
                                 <CountUp end={monthlyUsage} /> Kgs
                               </h4>
                               <Link
                                 to={'/meterreading'}
-                                className="text-decoration-underline"
+                                className="text-decoration-underline card-data-color"
                               >
                                 View Meter Reading
                               </Link>
                             </div>
                             <div className="avatar-sm flex-shrink-0">
                               <span className="avatar-title bg-soft-primary rounded fs-3">
-                                <i className="ri-water-flash-fill text-primary" />
+                                <div className="ovr-dashboard-icons_box">
+                                  <img
+                                    src="/assets/icons/month.png"
+                                    alt="icon"
+                                    className="ovr-dashboard-icons"
+                                  ></img>
+                                </div>
                               </span>
                             </div>
                           </div>
@@ -298,7 +314,7 @@ export default function AdminDashboard() {
                     </div>
                     <div className="col-xl-3 col-md-6">
                       {/* card */}
-                      <div className="card card-animate">
+                      <div className="card card-animate Leaks">
                         <div className="card-body ovr-cardBody">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
@@ -310,19 +326,25 @@ export default function AdminDashboard() {
                           </div>
                           <div className="d-flex align-items-end justify-content-between mt-4">
                             <div>
-                              <h4 className="fs-22 fw-semibold ff-secondary mb-4">
+                              <h4 className="fs-22 fw-semibold ff-secondary mb-4 card-data-color">
                                 <CountUp end={leak} />
                               </h4>
                               <Link
                                 to={'/leaks'}
-                                className="text-decoration-underline"
+                                className="text-decoration-underline card-data-color"
                               >
                                 View Leaks
                               </Link>
                             </div>
                             <div className="avatar-sm flex-shrink-0">
                               <span className="avatar-title bg-soft-success rounded fs-3">
-                                <i className="bx bx-shopping-bag text-success" />
+                                <div className="ovr-dashboard-icons_box">
+                                  <img
+                                    src="/assets/icons/leak.png"
+                                    alt="icon"
+                                    className="ovr-dashboard-icons"
+                                  ></img>
+                                </div>
                               </span>
                             </div>
                           </div>
@@ -335,31 +357,36 @@ export default function AdminDashboard() {
                   <div className="row">
                     <div className="col-xl-3 col-md-6">
                       {/* card */}
-                      <div className="card card-animate">
+                      <div className="card card-animate Open-Tickets">
                         <div className="card-body ovr-cardBody">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
                               <p className="text-uppercase fw-medium ovr-admin-card-caption text-truncate mb-0">
-                                {' '}
                                 Open Tickets
                               </p>
                             </div>
                           </div>
                           <div className="d-flex align-items-end justify-content-between mt-4">
                             <div>
-                              <h4 className="fs-22 fw-semibold ff-secondary mb-4">
+                              <h4 className="fs-22 fw-semibold ff-secondary mb-4 card-data-color">
                                 <CountUp end={totalTickets} />
                               </h4>
                               <Link
                                 to={'/tickets'}
-                                className="text-decoration-underline"
+                                className="text-decoration-underlin4 card-data-color"
                               >
                                 View all tickets
                               </Link>
                             </div>
                             <div className="avatar-sm flex-shrink-0">
                               <span className="avatar-title bg-soft-success rounded fs-3">
-                                <i className="bx bx-shopping-bag text-success" />
+                                <div className="ovr-dashboard-icons_box">
+                                  <img
+                                    src="/assets/icons/ticket.png"
+                                    alt="icon"
+                                    className="ovr-dashboard-icons"
+                                  ></img>
+                                </div>
                               </span>
                             </div>
                           </div>
@@ -371,7 +398,7 @@ export default function AdminDashboard() {
                     {/* end col */}
                     <div className="col-xl-3 col-md-6">
                       {/* card */}
-                      <div className="card card-animate">
+                      <div className="card card-animate Todays-Transactions">
                         <div className="card-body ovr-cardBody">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
@@ -382,19 +409,25 @@ export default function AdminDashboard() {
                           </div>
                           <div className="d-flex align-items-end justify-content-between mt-4">
                             <div>
-                              <h4 className="fs-22 fw-semibold ff-secondary mb-4">
+                              <h4 className="fs-22 fw-semibold ff-secondary mb-4 card-data-color">
                                 {todayTransaction + ' INR'}
                               </h4>
                               <Link
                                 to={'/transactions'}
-                                className="text-decoration-underline"
+                                className="text-decoration-underline card-data-color"
                               >
                                 View all transactions
                               </Link>
                             </div>
                             <div className="avatar-sm flex-shrink-0">
                               <span className="avatar-title bg-soft-info rounded fs-3">
-                                <i className="bx bx-dollar-circle text-success" />
+                                <div className="ovr-dashboard-icons_box">
+                                  <img
+                                    src="/assets/icons/transactions.png"
+                                    alt="icon"
+                                    className="ovr-dashboard-icons"
+                                  ></img>
+                                </div>
                               </span>
                             </div>
                           </div>
@@ -406,7 +439,7 @@ export default function AdminDashboard() {
                     {/* end col */}
                     <div className="col-xl-3 col-md-6">
                       {/* card */}
-                      <div className="card card-animate">
+                      <div className="card card-animate  Users">
                         <div className="card-body ovr-cardBody">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
@@ -417,19 +450,25 @@ export default function AdminDashboard() {
                           </div>
                           <div className="d-flex align-items-end justify-content-between mt-4">
                             <div>
-                              <h4 className="fs-22 fw-semibold ff-secondary mb-4">
+                              <h4 className="fs-22 fw-semibold ff-secondary mb-4 card-data-color">
                                 <CountUp end={totalUsers} />
                               </h4>
                               <Link
                                 to={'/users'}
-                                className="text-decoration-underline"
+                                className="text-decoration-underline card-data-color"
                               >
                                 View all users
                               </Link>
                             </div>
                             <div className="avatar-sm flex-shrink-0">
                               <span className="avatar-title bg-soft-warning rounded fs-3">
-                                <i className="bx bx-user-circle text-warning" />
+                                <div className="ovr-dashboard-icons_box">
+                                  <img
+                                    src="/assets/icons/users.png"
+                                    alt="icon"
+                                    className="ovr-dashboard-icons"
+                                  ></img>
+                                </div>
                               </span>
                             </div>
                           </div>
@@ -441,7 +480,7 @@ export default function AdminDashboard() {
                     {/* end col */}
                     <div className="col-xl-3 col-md-6">
                       {/* card */}
-                      <div className="card card-animate">
+                      <div className="card card-animate Active-Devices">
                         <div className="card-body ovr-cardBody">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
@@ -452,19 +491,25 @@ export default function AdminDashboard() {
                           </div>
                           <div className="d-flex align-items-end justify-content-between mt-4">
                             <div>
-                              <h4 className="fs-22 fw-semibold ff-secondary mb-4">
+                              <h4 className="fs-22 fw-semibold ff-secondary mb-4 card-data-color">
                                 <CountUp end={totalDevices} />
                               </h4>
                               <Link
                                 to={'/devices'}
-                                className="text-decoration-underline"
+                                className="text-decoration-underline card-data-color"
                               >
                                 View all devices
                               </Link>
                             </div>
                             <div className="avatar-sm flex-shrink-0">
                               <span className="avatar-title bg-soft-primary rounded fs-3">
-                                <i className="bx bx-wallet text-primary" />
+                                <div className="ovr-dashboard-icons_box">
+                                  <img
+                                    src="/assets/icons/devices.png"
+                                    alt="icon"
+                                    className="ovr-dashboard-icons"
+                                  ></img>
+                                </div>
                               </span>
                             </div>
                           </div>

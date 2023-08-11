@@ -1,19 +1,19 @@
-import Footer from "../Common/Layouts/Footer";
-import Header from "../Common/Layouts/Header";
-import SideBar from "../Common/Layouts/SideBar";
-import Flatpickr from "react-flatpickr";
-import CountUp from "react-countup";
-import ReactApexChart from "react-apexcharts";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import moment from "moment";
-import { APIConfig } from "../Common/Configurations/APIConfig";
-import { Link } from "react-router-dom";
+import Footer from '../Common/Layouts/Footer';
+import Header from '../Common/Layouts/Header';
+import SideBar from '../Common/Layouts/SideBar';
+import Flatpickr from 'react-flatpickr';
+import CountUp from 'react-countup';
+import ReactApexChart from 'react-apexcharts';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import moment from 'moment';
+import { APIConfig } from '../Common/Configurations/APIConfig';
+import { Link } from 'react-router-dom';
 
 export default function CustomerDashboard() {
   const [crmdate, setCRMDate] = useState(new Date());
   const [barGraphLabels, setBarGraphLabels] = useState([]);
-  const [barGraphBy, setBarGraphBy] = useState("DAILY");
+  const [barGraphBy, setBarGraphBy] = useState('DAILY');
   const [barGraphSeries, setBarGraphSeries] = useState([]);
   const [totalTickets, setTotalTickets] = useState(0);
   const [last24hours, setLast24Hours] = useState(0);
@@ -25,7 +25,7 @@ export default function CustomerDashboard() {
   const GasConsumptionHourly = () => {
     var options = {
       chart: {
-        id: "Gas-Usage",
+        id: 'Gas-Usage',
         toolbar: {
           show: false,
           offsetX: 0,
@@ -43,18 +43,18 @@ export default function CustomerDashboard() {
           export: {
             csv: {
               filename: undefined,
-              columnDelimiter: ",",
-              headerCategory: "Date and Time",
-              headerValue: "Usage",
+              columnDelimiter: ',',
+              headerCategory: 'Date and Time',
+              headerValue: 'Usage',
               dateFormatter(timestamp) {
                 return new Date(timestamp).toDateString();
               },
             },
             png: {
-              filename: "Gas-Usage-Daily",
+              filename: 'Gas-Usage-Daily',
             },
           },
-          autoSelected: "zoom",
+          autoSelected: 'zoom',
         },
       },
       xaxis: {
@@ -63,7 +63,7 @@ export default function CustomerDashboard() {
     };
     var series = [
       {
-        name: "gas usage",
+        name: 'gas usage',
         data: barGraphSeries, //[30, 40, 35, 50, 49, 60, 70, 91, 125]
       },
     ];
@@ -79,8 +79,8 @@ export default function CustomerDashboard() {
   };
   const headerconfig = {
     headers: {
-      Authorization: "Bearer " + localStorage.getItem("userToken"),
-      "Content-Type": "application/json",
+      Authorization: 'Bearer ' + localStorage.getItem('userToken'),
+      'Content-Type': 'application/json',
     },
   };
   const GetBarGraphData = (data) => {
@@ -88,10 +88,10 @@ export default function CustomerDashboard() {
       .get(
         APIConfig.APIACTIVATEURL +
           APIConfig.GETBARGRAPHDATA +
-          "?DayFilter=" +
+          '?DayFilter=' +
           data +
-          "&UserId=" +
-          localStorage.getItem("userId"),
+          '&UserId=' +
+          localStorage.getItem('userId'),
         { ...headerconfig }
       )
       .then((response) => {
@@ -104,8 +104,8 @@ export default function CustomerDashboard() {
       .get(
         APIConfig.APIACTIVATEURL +
           APIConfig.GETUSERGASUSAGECOUNT +
-          "?UserId=" +
-          localStorage.getItem("userId"),
+          '?UserId=' +
+          localStorage.getItem('userId'),
         { ...headerconfig }
       )
       .then((response) => {
@@ -123,8 +123,8 @@ export default function CustomerDashboard() {
       .post(
         APIConfig.APIACTIVATEURL +
           APIConfig.GETLEAKDATA +
-          "?UserId=" +
-          localStorage.getItem("userId"),
+          '?UserId=' +
+          localStorage.getItem('userId'),
         { ...headerconfig }
       )
       .then((response) => {
@@ -155,7 +155,7 @@ export default function CustomerDashboard() {
                       <div className="d-flex align-items-lg-center flex-lg-row flex-column">
                         <div className="flex-grow-1">
                           <h4 className="fs-16 mb-1">
-                            Hello, {localStorage.getItem("name")}!
+                            Hello, {localStorage.getItem('name')}!
                           </h4>
                           <p className="text-muted mb-0">
                             Here's gas consumption details .
@@ -165,11 +165,11 @@ export default function CustomerDashboard() {
                           <div className="row g-3 mb-0 align-items-center">
                             <div className="col-auto">
                               <Link
-                                to={"/newticket"}
+                                to={'/newticket'}
                                 type="button"
                                 className="btn btn-soft-success"
                               >
-                                <i className="ri-add-circle-line align-middle me-1" />{" "}
+                                <i className="ri-add-circle-line align-middle me-1" />{' '}
                                 Raise Ticket
                               </Link>
                             </div>
@@ -185,14 +185,14 @@ export default function CustomerDashboard() {
                       {/* card */}
                       <div
                         className="card card-animate"
-                        style={{ backgroundColor: "#1e8275" }}
+                        style={{ backgroundColor: '#1e8275' }}
                       >
                         <div className="card-body">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
                               <p
                                 className="text-uppercase fw-medium text-truncate mb-0"
-                                style={{ color: "#fff" }}
+                                style={{ color: '#fff' }}
                               >
                                 Last 24 Hours Usage
                               </p>
@@ -202,7 +202,7 @@ export default function CustomerDashboard() {
                             <div>
                               <h4
                                 className="fs-22 fw-semibold ff-secondary mb-4"
-                                style={{ color: "#fff" }}
+                                style={{ color: '#fff' }}
                               >
                                 <CountUp end={last24hours} /> litres
                               </h4>
@@ -210,9 +210,15 @@ export default function CustomerDashboard() {
                             <div className="avatar-sm flex-shrink-0">
                               <span
                                 className="avatar-title rounded fs-3"
-                                style={{ backgroundColor: "#fff" }}
+                                style={{ backgroundColor: '#fff' }}
                               >
-                                <i className="ri-water-flash-fill text-success" />
+                                <div className="ovr-dashboard-icons_box">
+                                  <img
+                                    src="/assets/icons/24-hour.png"
+                                    alt="icon"
+                                    className="ovr-dashboard-icons"
+                                  ></img>
+                                </div>
                               </span>
                             </div>
                           </div>
@@ -226,14 +232,14 @@ export default function CustomerDashboard() {
                       {/* card */}
                       <div
                         className="card card-animate"
-                        style={{ backgroundColor: "#b49f0f" }}
+                        style={{ backgroundColor: '#b49f0f' }}
                       >
                         <div className="card-body">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
                               <p
                                 className="text-uppercase fw-medium text-truncate mb-0"
-                                style={{ color: "#fff" }}
+                                style={{ color: '#fff' }}
                               >
                                 Current Week Usage
                               </p>
@@ -243,7 +249,7 @@ export default function CustomerDashboard() {
                             <div>
                               <h4
                                 className="fs-22 fw-semibold ff-secondary mb-4"
-                                style={{ color: "#fff" }}
+                                style={{ color: '#fff' }}
                               >
                                 <CountUp end={weeklyUsage} /> litres
                               </h4>
@@ -251,9 +257,15 @@ export default function CustomerDashboard() {
                             <div className="avatar-sm flex-shrink-0">
                               <span
                                 className="avatar-title rounded fs-3"
-                                style={{ backgroundColor: "#fff" }}
+                                style={{ backgroundColor: '#fff' }}
                               >
-                                <i className="ri-water-flash-fill text-primary" />
+                                <div className="ovr-dashboard-icons_box">
+                                  <img
+                                    src="/assets/icons/week.png"
+                                    alt="icon"
+                                    className="ovr-dashboard-icons"
+                                  ></img>
+                                </div>
                               </span>
                             </div>
                           </div>
@@ -267,14 +279,14 @@ export default function CustomerDashboard() {
                       {/* card */}
                       <div
                         className="card card-animate"
-                        style={{ backgroundColor: "#c15622" }}
+                        style={{ backgroundColor: '#3F979B' }}
                       >
                         <div className="card-body">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
                               <p
                                 className="text-uppercase fw-medium text-truncate mb-0"
-                                style={{ color: "#fff" }}
+                                style={{ color: '#fff' }}
                               >
                                 Current Month Usage
                               </p>
@@ -284,7 +296,7 @@ export default function CustomerDashboard() {
                             <div>
                               <h4
                                 className="fs-22 fw-semibold ff-secondary mb-4"
-                                style={{ color: "#fff" }}
+                                style={{ color: '#fff' }}
                               >
                                 <CountUp end={monthlyUsage} /> litres
                               </h4>
@@ -292,9 +304,15 @@ export default function CustomerDashboard() {
                             <div className="avatar-sm flex-shrink-0">
                               <span
                                 className="avatar-title rounded fs-3"
-                                style={{ backgroundColor: "#fff" }}
+                                style={{ backgroundColor: '#fff' }}
                               >
-                                <i className="ri-water-flash-fill text-primary" />
+                                <div className="ovr-dashboard-icons_box">
+                                  <img
+                                    src="/assets/icons/month.png"
+                                    alt="icon"
+                                    className="ovr-dashboard-icons"
+                                  ></img>
+                                </div>
                               </span>
                             </div>
                           </div>
@@ -307,14 +325,14 @@ export default function CustomerDashboard() {
                       {/* card */}
                       <div
                         className="card card-animate"
-                        style={{ backgroundColor: "#346a3f" }}
+                        style={{ backgroundColor: '#c15622' }}
                       >
                         <div className="card-body">
                           <div className="d-flex align-items-center">
                             <div className="flex-grow-1 overflow-hidden">
                               <p
                                 className="text-uppercase fw-medium text-truncate mb-0"
-                                style={{ color: "#fff" }}
+                                style={{ color: '#fff' }}
                               >
                                 No of Leaks
                               </p>
@@ -324,7 +342,7 @@ export default function CustomerDashboard() {
                             <div>
                               <h4
                                 className="fs-22 fw-semibold ff-secondary mb-4"
-                                style={{ color: "#fff" }}
+                                style={{ color: '#fff' }}
                               >
                                 {leak}
                               </h4>
@@ -332,9 +350,15 @@ export default function CustomerDashboard() {
                             <div className="avatar-sm flex-shrink-0">
                               <span
                                 className="avatar-title rounded fs-3"
-                                style={{ backgroundColor: "#fff" }}
+                                style={{ backgroundColor: '#fff' }}
                               >
-                                <i className="ri-water-flash-line text-primary" />
+                                <div className="ovr-dashboard-icons_box">
+                                  <img
+                                    src="/assets/icons/leak.png"
+                                    alt="icon"
+                                    className="ovr-dashboard-icons"
+                                  ></img>
+                                </div>
                               </span>
                             </div>
                           </div>
@@ -349,40 +373,40 @@ export default function CustomerDashboard() {
                       <div className="card">
                         <div className="card-header border-0 align-items-center d-flex">
                           <h4 className="card-title mb-0 flex-grow-1">
-                            Gas Consumption - Last Updated{" "}
-                            {moment(lastUpdated).format("Do MMM YYYY, h:mm a")}
+                            Gas Consumption - Last Updated{' '}
+                            {moment(lastUpdated).format('Do MMM YYYY, h:mm a')}
                           </h4>
                           <div>
                             <button
                               type="button"
                               className={
-                                barGraphBy === "DAILY"
-                                  ? "btn btn-soft-secondary btn-sm active"
-                                  : "btn btn-soft-secondary btn-sm pr-2"
+                                barGraphBy === 'DAILY'
+                                  ? 'btn btn-soft-secondary btn-sm active'
+                                  : 'btn btn-soft-secondary btn-sm pr-2'
                               }
-                              onClick={() => handleBarGraph("DAILY")}
+                              onClick={() => handleBarGraph('DAILY')}
                             >
                               Today
                             </button>
                             <button
                               type="button"
                               className={
-                                barGraphBy === "WEEKLY"
-                                  ? "btn btn-soft-secondary btn-sm active"
-                                  : "btn btn-soft-secondary btn-sm"
+                                barGraphBy === 'WEEKLY'
+                                  ? 'btn btn-soft-secondary btn-sm active'
+                                  : 'btn btn-soft-secondary btn-sm'
                               }
-                              onClick={() => handleBarGraph("WEEKLY")}
+                              onClick={() => handleBarGraph('WEEKLY')}
                             >
                               Weekly
                             </button>
                             <button
                               type="button"
                               className={
-                                barGraphBy === "MONTHLY"
-                                  ? "btn btn-soft-secondary btn-sm active"
-                                  : "btn btn-soft-secondary btn-sm"
+                                barGraphBy === 'MONTHLY'
+                                  ? 'btn btn-soft-secondary btn-sm active'
+                                  : 'btn btn-soft-secondary btn-sm'
                               }
-                              onClick={() => handleBarGraph("MONTHLY")}
+                              onClick={() => handleBarGraph('MONTHLY')}
                             >
                               Monthly
                             </button>
