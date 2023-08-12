@@ -37,38 +37,60 @@ export default function Header() {
           {localStorage.getItem('roleName') === 'Customer' ? (
             <ul className="navbar-nav" id="navbar-nav">
               <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/customer/dashboard'}>
+                <Link
+                  className="nav-link menu-link ovr-nav-links"
+                  to={'/customer/dashboard'}
+                >
                   <i className="ri-dashboard-fill" />{' '}
                   <span data-key="t-dashboards">Dashboard</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/user/meterreading'}>
+                <Link
+                  className="nav-link menu-link ovr-nav-links"
+                  to={'/user/meterreading'}
+                >
                   <i className="ri-dashboard-2-line" />{' '}
                   <span data-key="t-dashboards">Gas Usage</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/newticket'}>
-                  <i className="ri-ticket-fill" />{' '}
+                <Link
+                  className="nav-link menu-link ovr-nav-links"
+                  to={'/newticket'}
+                >
+                  <span className="material-symbols-outlined googleIcons">
+                    local_activity
+                  </span>
                   <span data-key="t-dashboards">New Ticket</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/recharge'}>
+                <Link
+                  className="nav-link menu-link ovr-nav-links"
+                  to={'/recharge'}
+                >
                   <i className="ri-money-dollar-box-line" />{' '}
                   <span data-key="t-dashboards">Recharge Gas</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/notifications'}>
+                <Link
+                  className="nav-link menu-link ovr-nav-links"
+                  to={'/notifications'}
+                >
                   <i className="ri-notification-2-fill" />{' '}
                   <span data-key="t-dashboards">Notifications</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/user/leaks'}>
-                  <i className="ri-notification-2-fill" />{' '}
+                <Link
+                  className="nav-link menu-link ovr-nav-links"
+                  to={'/user/leaks'}
+                >
+                  <span className="material-symbols-outlined googleIcons">
+                    emergency_home
+                  </span>
                   <span data-key="t-dashboards">Leaks</span>
                 </Link>
               </li>
@@ -77,98 +99,8 @@ export default function Header() {
             <ul className="navbar-nav" id="navbar-nav">
               <li className="nav-item">
                 <Link
-                  className="nav-link menu-link"
-                  to={'/superadmin/dashboard'}
-                >
-                  <i className="ri-dashboard-fill" />{' '}
-                  <span data-key="t-dashboards">Dashboard</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/meterreading'}>
-                  <i className="ri-dashboard-2-line" />{' '}
-                  <span data-key="t-dashboards">Gas Usage Data</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/gasprices'}>
-                  <i className="ri-dashboard-2-line" />{' '}
-                  <span data-key="t-dashboards">GasPrices</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/devices'}>
-                  <i className="ri-tv-2-line" />{' '}
-                  <span data-key="t-dashboards">Devices</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/organisations'}>
-                  <i className="ri-building-4-fill" />{' '}
-                  <span data-key="t-dashboards">Organisations</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/apartments'}>
-                  <i className="ri-building-4-fill" />{' '}
-                  <span data-key="t-dashboards">Apartments</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/blocks'}>
-                  <i className="ri-building-4-fill" />{' '}
-                  <span data-key="t-dashboards">Blocks</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/floors'}>
-                  <i className="ri-building-4-fill" />{' '}
-                  <span data-key="t-dashboards">Floors</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/units'}>
-                  <i className="ri-building-4-fill" />{' '}
-                  <span data-key="t-dashboards">Units</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/tickets'}>
-                  <i className="ri-ticket-fill" />{' '}
-                  <span data-key="t-dashboards">Tickets</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/transactions'}>
-                  <i className="ri-money-dollar-box-line" />{' '}
-                  <span data-key="t-dashboards">Transactions</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/notifications'}>
-                  <i className="ri-notification-2-fill" />{' '}
-                  <span data-key="t-dashboards">Notifications</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/leaks'}>
-                  <i className="ri-notification-2-fill" />{' '}
-                  <span data-key="t-dashboards">Leaks</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link menu-link" to={'/messages'}>
-                  <i className="ri-building-4-fill" />{' '}
-                  <span data-key="t-dashboards">Messages</span>
-                </Link>
-              </li>
-            </ul>
-          ) : (
-            <ul className="navbar-nav" id="navbar-nav">
-              <li className="nav-item">
-                <Link
                   className="nav-link menu-link ovr-nav-links"
-                  to={'/admin/dashboard'}
+                  to={'/superadmin/dashboard'}
                 >
                   <i className="ri-dashboard-fill" />{' '}
                   <span data-key="t-dashboards">Dashboard</span>
@@ -179,7 +111,9 @@ export default function Header() {
                   className="nav-link menu-link ovr-nav-links"
                   to={'/meterreading'}
                 >
-                  <i className="ri-dashboard-2-line" />{' '}
+                  <span className="material-symbols-outlined googleIcons">
+                    trending_up
+                  </span>
                   <span data-key="t-dashboards">Gas Usage Data</span>
                 </Link>
               </li>
@@ -188,32 +122,72 @@ export default function Header() {
                   className="nav-link menu-link ovr-nav-links"
                   to={'/gasprices'}
                 >
-                  <span className="material-symbols-outlined googleIcons">
-                    finance_chip
-                  </span>
+                  <i className="ri-dashboard-2-line" />{' '}
                   <span data-key="t-dashboards">GasPrices</span>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link
                   className="nav-link menu-link ovr-nav-links"
-                  to={'/users'}
+                  to={'/devices'}
                 >
-                  <span className="material-symbols-outlined googleIcons">
-                    group
-                  </span>
-                  <span data-key="t-dashboards">Users</span>
+                  <i className="ri-tv-2-line" />{' '}
+                  <span data-key="t-dashboards">Devices</span>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link
                   className="nav-link menu-link ovr-nav-links"
-                  to={'/roles'}
+                  to={'/organisations'}
                 >
                   <span className="material-symbols-outlined googleIcons">
-                    diversity_3
+                    water_damage
                   </span>
-                  <span data-key="t-dashboards">Roles</span>
+                  <span data-key="t-dashboards">Organisations</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links"
+                  to={'/apartments'}
+                >
+                  <span className="material-symbols-outlined googleIcons">
+                    apartment
+                  </span>
+                  <span data-key="t-dashboards">Apartments</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links"
+                  to={'/blocks'}
+                >
+                  <span className="material-symbols-outlined googleIcons">
+                    crop_square
+                  </span>
+                  <span data-key="t-dashboards">Blocks</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links"
+                  to={'/floors'}
+                >
+                  <span className="material-symbols-outlined googleIcons">
+                    segment
+                  </span>
+                  <span data-key="t-dashboards">Floors</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links"
+                  to={'/units'}
+                >
+                  <span className="material-symbols-outlined googleIcons">
+                    grid_view
+                  </span>
+                  <span data-key="t-dashboards">Units</span>
                 </Link>
               </li>
               <li className="nav-item">
@@ -250,6 +224,107 @@ export default function Header() {
                   className="nav-link menu-link ovr-nav-links"
                   to={'/leaks'}
                 >
+                  <i className="ri-notification-2-fill" />{' '}
+                  <span data-key="t-dashboards">Leaks</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links"
+                  to={'/messages'}
+                >
+                  <i className="ri-building-4-fill" />{' '}
+                  <span data-key="t-dashboards">Messages</span>
+                </Link>
+              </li>
+            </ul>
+          ) : (
+            <ul className="navbar-nav" id="navbar-nav">
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links ovr-nav-links"
+                  to={'/admin/dashboard'}
+                >
+                  <i className="ri-dashboard-fill" />{' '}
+                  <span data-key="t-dashboards">Dashboard</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links ovr-nav-links"
+                  to={'/meterreading'}
+                >
+                  <i className="ri-dashboard-2-line" />{' '}
+                  <span data-key="t-dashboards">Gas Usage Data</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links ovr-nav-links"
+                  to={'/gasprices'}
+                >
+                  <span className="material-symbols-outlined googleIcons">
+                    finance_chip
+                  </span>
+                  <span data-key="t-dashboards">GasPrices</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links ovr-nav-links"
+                  to={'/users'}
+                >
+                  <span className="material-symbols-outlined googleIcons">
+                    group
+                  </span>
+                  <span data-key="t-dashboards">Users</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links ovr-nav-links"
+                  to={'/roles'}
+                >
+                  <span className="material-symbols-outlined googleIcons">
+                    diversity_3
+                  </span>
+                  <span data-key="t-dashboards">Roles</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links ovr-nav-links"
+                  to={'/tickets'}
+                >
+                  <span className="material-symbols-outlined googleIcons">
+                    local_activity
+                  </span>
+                  <span data-key="t-dashboards">Tickets</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links ovr-nav-links"
+                  to={'/transactions'}
+                >
+                  <i className="ri-money-dollar-box-line" />{' '}
+                  <span data-key="t-dashboards">Transactions</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links ovr-nav-links"
+                  to={'/notifications'}
+                >
+                  <i className="ri-notification-2-fill" />{' '}
+                  <span data-key="t-dashboards">Notifications</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links ovr-nav-links"
+                  to={'/leaks'}
+                >
                   <span className="material-symbols-outlined googleIcons">
                     emergency_home
                   </span>
@@ -258,7 +333,7 @@ export default function Header() {
               </li>
               <li className="nav-item">
                 <Link
-                  className="nav-link menu-link ovr-nav-links"
+                  className="nav-link menu-link ovr-nav-links ovr-nav-links"
                   to={'/units'}
                 >
                   <span className="material-symbols-outlined googleIcons">
@@ -269,7 +344,7 @@ export default function Header() {
               </li>
               <li className="nav-item">
                 <Link
-                  className="nav-link menu-link ovr-nav-links"
+                  className="nav-link menu-link ovr-nav-links ovr-nav-links"
                   to={'/messages'}
                 >
                   <span className="material-symbols-outlined googleIcons">
