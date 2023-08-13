@@ -41,7 +41,7 @@ export default function Header() {
                   className="nav-link menu-link ovr-nav-links"
                   to={'/customer/dashboard'}
                 >
-                  <i className="ri-dashboard-fill" />{' '}
+                  <i className="ri-dashboard-fill" />
                   <span data-key="t-dashboards">Dashboard</span>
                 </Link>
               </li>
@@ -50,7 +50,7 @@ export default function Header() {
                   className="nav-link menu-link ovr-nav-links"
                   to={'/user/meterreading'}
                 >
-                  <i className="ri-dashboard-2-line" />{' '}
+                  <i className="ri-dashboard-2-line" />
                   <span data-key="t-dashboards">Gas Usage</span>
                 </Link>
               </li>
@@ -70,7 +70,7 @@ export default function Header() {
                   className="nav-link menu-link ovr-nav-links"
                   to={'/recharge'}
                 >
-                  <i className="ri-money-dollar-box-line" />{' '}
+                  <i className="ri-money-dollar-box-line" />
                   <span data-key="t-dashboards">Recharge Gas</span>
                 </Link>
               </li>
@@ -79,7 +79,7 @@ export default function Header() {
                   className="nav-link menu-link ovr-nav-links"
                   to={'/notifications'}
                 >
-                  <i className="ri-notification-2-fill" />{' '}
+                  <i className="ri-notification-2-fill" />
                   <span data-key="t-dashboards">Notifications</span>
                 </Link>
               </li>

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { UserStatus } from "../Common/Enums";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import {APIConfig} from "../Common/Configurations/APIConfig";
+import { APIConfig } from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 import moment from 'moment';
 const initialFieldValues = {
@@ -63,7 +63,6 @@ export default function GasPrice() {
         };
     };
     const addOrEdit = (formData) => {
-        console.log(formData)
         if (formData.gasPriceId === "00000000-0000-0000-0000-000000000000") {
             applicationAPI()
                 .create(formData)
@@ -81,7 +80,7 @@ export default function GasPrice() {
             applicationAPI()
                 .update(formData)
                 .then((res) => {
-                    if (res.data.statusCode === 202) {
+                    if (res.data.status === 200) {
                         handleSuccess(res.data.message);
                         resetForm();
                         GetGasPrice();
@@ -198,18 +197,15 @@ export default function GasPrice() {
                                                             {gp.status === true ? <span className="badge bg-success">{UserStatus.ACTIVE}</span> : <span className="badge bg-warning">{UserStatus.INACTIVE}</span>}
                                                         </td>
                                                         <td>
-                                                            <div className="dropdown d-inline-block">
-                                                                <button className="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i className="ri-more-fill align-middle" />
-                                                                </button>
-                                                                <ul className="dropdown-menu dropdown-menu-end">
-                                                                    <li><Link className="dropdown-item edit-item-btn" onClick={() => { showEditDetails(gp); }}><i className="ri-pencil-fill align-bottom me-2 text-muted" /> Edit</Link></li>
-                                                                    <li>
-                                                                        <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, gp.gasPriceId)}>
-                                                                            <i className="ri-delete-bin-fill align-bottom me-2 text-muted" /> Delete
-                                                                        </Link>
-                                                                    </li>
-                                                                </ul>
+                                                            <div className="d-flex gap-2">
+                                                                <div className="edit">
+                                                                    <Link className="dropdown-item edit-item-btn" onClick={() => { showEditDetails(gp); }}><i className="ri-pencil-fill align-bottom me-2 text-muted" /></Link>
+                                                                </div>
+                                                                <div class="remove">
+                                                                    <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, gp.gasPriceId)}>
+                                                                        <i className="ri-delete-bin-fill align-bottom me-2 text-muted" />
+                                                                    </Link>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                     </tr>

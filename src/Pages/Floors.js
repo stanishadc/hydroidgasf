@@ -3,7 +3,7 @@ import SideBar from "../Common/Layouts/SideBar";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import {APIConfig} from "../Common/Configurations/APIConfig";
+import { APIConfig } from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 const initialFieldValues = {
     floorId: "00000000-0000-0000-0000-000000000000",
@@ -151,7 +151,7 @@ export default function Floors() {
                         <div className="alert alert-success">
                             <form onSubmit={handleSubmit} autoComplete="off" noValidate>
                                 <div className="row">
-                                <div className="col-lg-3">
+                                    <div className="col-lg-3">
                                         <div className="mb-4">
                                             <label htmlFor="blockId" className="form-label">Block</label>
                                             <select name="blockId" value={values.blockId} onChange={handleInputChange} className={"form-control" + applyErrorClass('blockId')}>
@@ -202,18 +202,15 @@ export default function Floors() {
                                                         <td>{floor.apartmentName}</td>
                                                         <td>{floor.organisationName}</td>
                                                         <td>
-                                                            <div className="dropdown d-inline-block">
-                                                                <button className="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i className="ri-more-fill align-middle" />
-                                                                </button>
-                                                                <ul className="dropdown-menu dropdown-menu-end">
-                                                                    <li>
-                                                                        <li><Link className="dropdown-item edit-item-btn" onClick={() => { showEditDetails(floor); }}><i className="ri-pencil-fill align-bottom me-2 text-muted" /> Edit</Link></li>
-                                                                        <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, floor.floorId)}>
-                                                                            <i className="ri-delete-bin-fill align-bottom me-2 text-muted" /> Delete
-                                                                        </Link>
-                                                                    </li>
-                                                                </ul>
+                                                            <div className="d-flex gap-2">
+                                                                <div className="edit">
+                                                                    <Link className="dropdown-item edit-item-btn" onClick={() => { showEditDetails(floor); }}><i className="ri-pencil-fill align-bottom me-2 text-muted" /></Link>
+                                                                </div>
+                                                                <div class="remove">
+                                                                    <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, floor.floorId)}>
+                                                                        <i className="ri-delete-bin-fill align-bottom me-2 text-muted" />
+                                                                    </Link>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                     </tr>

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { UserStatus } from "../Common/Enums";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {APIConfig} from "../Common/Configurations/APIConfig";
+import { APIConfig } from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 import Flatpickr from "react-flatpickr";
 const initialFieldValues = {
@@ -272,39 +272,15 @@ export default function Messages() {
                                 )}
                               </td>
                               <td>
-                                <div className="dropdown d-inline-block">
-                                  <button
-                                    className="btn btn-soft-secondary btn-sm dropdown"
-                                    type="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                  >
-                                    <i className="ri-more-fill align-middle" />
-                                  </button>
-                                  <ul className="dropdown-menu dropdown-menu-end">
-                                    <li>
-                                      <Link
-                                        className="dropdown-item edit-item-btn"
-                                        onClick={() => {
-                                          showEditDetails(m);
-                                        }}
-                                      >
-                                        <i className="ri-pencil-fill align-bottom me-2 text-muted" />{" "}
-                                        Edit
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link
-                                        className="dropdown-item remove-item-btn"
-                                        onClick={(e) =>
-                                          onDelete(e, m.messageId)
-                                        }
-                                      >
-                                        <i className="ri-delete-bin-fill align-bottom me-2 text-muted" />{" "}
-                                        Delete
-                                      </Link>
-                                    </li>
-                                  </ul>
+                                <div className="d-flex gap-2">
+                                  <div className="edit">
+                                    <Link className="dropdown-item edit-item-btn" onClick={() => { showEditDetails(m); }}><i className="ri-pencil-fill align-bottom me-2 text-muted" /></Link>
+                                  </div>
+                                  <div class="remove">
+                                    <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, m.messageId)}>
+                                      <i className="ri-delete-bin-fill align-bottom me-2 text-muted" />
+                                    </Link>
+                                  </div>
                                 </div>
                               </td>
                             </tr>

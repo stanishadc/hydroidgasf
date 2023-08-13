@@ -382,24 +382,24 @@ export default function NewTicket() {
                                       <i class="ri-eye-2-line"></i>
                                     </Link>
                                     {ticket.ticketStatus === "CLOSED" ? (
-                                      <button onClick={e=>handleReopen(e,ticket.ticketId)}>REOPEN</button>
+                                      <button className="btn btn-sm btn-success edit-item-btn" onClick={e=>handleReopen(e,ticket.ticketId)}>REOPEN</button>
                                     ) : (
                                       <>
                                         <Link
                                           onClick={() => {
                                             showEditDetails(ticket);
                                           }}
-                                          class="link-success fs-15"
+                                          className="link-success fs-15"
                                         >
-                                          <i class="ri-edit-2-line"></i>
+                                          <i className="ri-edit-2-line"></i>
                                         </Link>
                                         <Link
                                           onClick={(e) =>
                                             onDelete(e, ticket.ticketId)
                                           }
-                                          class="link-danger fs-15"
+                                          className="link-danger fs-15"
                                         >
-                                          <i class="ri-delete-bin-line"></i>
+                                          <i className="ri-delete-bin-line"></i>
                                         </Link>
                                       </>
                                     )}

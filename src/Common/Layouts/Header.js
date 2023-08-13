@@ -67,7 +67,7 @@ export default function Header(props) {
                 <span className="d-flex align-items-center">
                   <span className="text-start ms-xl-2">
                     <span className="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
-                      Hello, {username}
+                      Hello, {username}<br /> {moment.utc().local().format('MMMM Do YYYY, h:mm a')}
                     </span>
                   </span>
                 </span>

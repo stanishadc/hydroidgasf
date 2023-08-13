@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { UserStatus } from "../Common/Enums";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import {APIConfig} from "../Common/Configurations/APIConfig";
+import { APIConfig } from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 import moment from "moment";
 export default function Notifications() {
@@ -87,11 +87,15 @@ export default function Notifications() {
                                                             {notification.status === true ? <span className="badge bg-success">{UserStatus.ACTIVE}</span> : <span className="badge bg-warning">{UserStatus.INACTIVE}</span>}
                                                         </td>
                                                         <td>
-                                                            <div class="hstack gap-3 flex-wrap">
-                                                            <Link to={"/" + notification.url} class="link-success fs-15"><i class="ri-eye-2-line"></i></Link>
-                                                                <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, notification.notificationId)}>
-                                                                    <i className="ri-delete-bin-fill align-bottom me-2 text-muted" />
-                                                                </Link>
+                                                        <div className="d-flex gap-2">
+                                                                <div className="edit">
+                                                                    <Link to={"/" + notification.url} class="link-success fs-15"><i class="ri-eye-fill align-bottom me-2 text-muted"></i></Link>
+                                                                </div>
+                                                                <div className="edit">
+                                                                    <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, notification.notificationId)}>
+                                                                        <i className="ri-delete-bin-fill align-bottom me-2 text-muted" />
+                                                                    </Link>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                     </tr>

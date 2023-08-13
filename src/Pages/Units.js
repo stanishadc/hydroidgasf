@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { UserStatus } from "../Common/Enums";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import {APIConfig} from "../Common/Configurations/APIConfig";
+import { APIConfig } from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 const initialFieldValues = {
     unitId: "00000000-0000-0000-0000-000000000000",
@@ -240,8 +240,8 @@ export default function Units() {
                                                     <th data-ordering="false">Email</th>
                                                     <th data-ordering="false">PhoneNo</th>
                                                     <th data-ordering="false">DeviceID</th>
-                                                    <th data-ordering="false">ApplicationID</th>                                                    
-                                                    <th data-ordering="false">Apartment</th>                                                    
+                                                    <th data-ordering="false">ApplicationID</th>
+                                                    <th data-ordering="false">Apartment</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -254,24 +254,21 @@ export default function Units() {
                                                         <td>{unit.email}</td>
                                                         <td>{unit.phoneNo}</td>
                                                         <td>{unit.deviceId}</td>
-                                                        <td>{unit.applicationId}</td>                                                        
+                                                        <td>{unit.applicationId}</td>
                                                         <td>{unit.apartmentName}</td>
                                                         <td>
                                                             {unit.status === true ? <span className="badge bg-success">{UserStatus.ACTIVE}</span> : <span className="badge bg-warning">{UserStatus.INACTIVE}</span>}
                                                         </td>
                                                         <td>
-                                                            <div className="dropdown d-inline-block">
-                                                                <button className="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    <i className="ri-more-fill align-middle" />
-                                                                </button>
-                                                                <ul className="dropdown-menu dropdown-menu-end">
-                                                                    <li><Link className="dropdown-item edit-item-btn" onClick={() => { showEditDetails(unit); }}><i className="ri-pencil-fill align-bottom me-2 text-muted" /> Edit</Link></li>
-                                                                    <li>
-                                                                        <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, unit.unitId)}>
-                                                                            <i className="ri-delete-bin-fill align-bottom me-2 text-muted" /> Delete
-                                                                        </Link>
-                                                                    </li>
-                                                                </ul>
+                                                            <div className="d-flex gap-2">
+                                                                <div className="edit">
+                                                                    <Link className="dropdown-item edit-item-btn" onClick={() => { showEditDetails(unit); }}><i className="ri-pencil-fill align-bottom me-2 text-muted" /></Link>
+                                                                </div>
+                                                                <div class="remove">
+                                                                    <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, unit.unitId)}>
+                                                                        <i className="ri-delete-bin-fill align-bottom me-2 text-muted" />
+                                                                    </Link>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                     </tr>

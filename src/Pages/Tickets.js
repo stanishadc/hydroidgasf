@@ -52,15 +52,15 @@ export default function Tickets() {
   };
   const handleClose = (e, ticketId) => {
     e.preventDefault();
-      const formData = {
-        ticketId: ticketId,
-        ticketStatus: "CLOSED",
-      };
-      axios
-        .post(APIConfig.APIACTIVATEURL + APIConfig.CLOSETICKET, formData)
-        .then((response) => {
-            GetTickets("1");
-        });
+    const formData = {
+      ticketId: ticketId,
+      ticketStatus: "CLOSED",
+    };
+    axios
+      .post(APIConfig.APIACTIVATEURL + APIConfig.CLOSETICKET, formData)
+      .then((response) => {
+        GetTickets("1");
+      });
   };
 
   const resetForm = () => {
@@ -73,12 +73,12 @@ export default function Tickets() {
     axios
       .get(
         APIConfig.APIACTIVATEURL +
-          APIConfig.GETALLTICKETS +
-          "?pageNumber=" +
-          number +
-          "&pageSize=" +
-          pageSize +
-          "",
+        APIConfig.GETALLTICKETS +
+        "?pageNumber=" +
+        number +
+        "&pageSize=" +
+        pageSize +
+        "",
         { ...headerconfig }
       )
       .then((response) => {
@@ -196,7 +196,7 @@ export default function Tickets() {
                                 </td>
                                 <td>
                                   {ticket.ticketPriority ===
-                                  TicketPriority.LOW ? (
+                                    TicketPriority.LOW ? (
                                     <span className="badge bg-success">
                                       {TicketPriority.LOW}
                                     </span>
@@ -212,22 +212,21 @@ export default function Tickets() {
                                   )}
                                 </td>
                                 <td>
-                                  <div class="hstack gap-3 flex-wrap">
-                                    <Link
-                                      to={"/ticketdetails/" + ticket.ticketId}
-                                      class="link-success fs-15"
-                                    >
-                                      View
-                                    </Link>
-                                    <button
-                                      onClick={(e) =>
-                                        handleClose(e, ticket.ticketId)
-                                      }
-                                      to={"/ticketdetails/" + ticket.ticketId}
-                                      class="link-danger fs-15"
-                                    >
-                                      Close
-                                    </button>
+                                  <div className="d-flex gap-2">
+                                    <div className="edit">
+                                      <Link className="dropdown-item edit-item-btn" to={"/ticketdetails/" + ticket.ticketId}><i className="ri-eye-fill align-bottom me-2 text-muted" /></Link>
+                                    </div>
+                                    <div class="remove">
+                                      <Link
+                                        onClick={(e) =>
+                                          handleClose(e, ticket.ticketId)
+                                        }
+                                        to={"/ticketdetails/" + ticket.ticketId}
+                                        class="link-danger fs-15"
+                                      >
+                                        <i className="ri-close-circle-fill align-bottom me-2 text-muted" />
+                                      </Link>
+                                    </div>
                                   </div>
                                 </td>
                               </tr>

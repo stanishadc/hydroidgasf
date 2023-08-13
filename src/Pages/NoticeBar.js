@@ -22,18 +22,22 @@ export default function NoticeBar() {
     GetNoticeDetails();
   }, []);
   return (
-    <div
-      class="alert alert-danger alert-dismissible border-2 bg-body-secondary shadow fade show"
-      role="alert"
-    >
-      <strong> Note : </strong>
-      <b>{messageData.description}</b>
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="alert"
-        aria-label="Close"
-      ></button>
+    <div>
+      {messageData === "No Records" ? "" :
+        <div
+          class="alert alert-danger alert-dismissible border-2 bg-body-secondary shadow fade show"
+          role="alert"
+        >
+          <strong> Note : </strong>
+          <b>{messageData.description}</b>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+      }
     </div>
   );
 }

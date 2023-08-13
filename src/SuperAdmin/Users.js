@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { UserStatus } from "../Common/Enums";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import {APIConfig} from "../Common/Configurations/APIConfig";
+import { APIConfig } from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 const initialFieldValues = {
     userId: "00000000-0000-0000-0000-000000000000",
@@ -293,28 +293,23 @@ export default function Users() {
                                                                 {user.status === true ? <span className="badge bg-success">{UserStatus.ACTIVE}</span> : <span className="badge bg-warning">{UserStatus.INACTIVE}</span>}
                                                             </td>
                                                             <td>
-                                                                <div className="dropdown d-inline-block">
-                                                                    <button className="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                        <i className="ri-more-fill align-middle" />
-                                                                    </button>
-                                                                    <ul className="dropdown-menu dropdown-menu-end">
-                                                                        <li>
-                                                                            <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, user.userId)}>
-                                                                                <i className="ri-delete-bin-fill align-bottom me-2 text-muted" /> Delete
+                                                                <div className="d-flex gap-2">
+                                                                    <div className="edit">
+                                                                        {user.status === true ?
+                                                                            <Link className="dropdown-item remove-item-btn" onClick={e => onStatus(e, user.userId, false)}>
+                                                                                <i className="ri-user-2-fill align-bottom me-2" />
                                                                             </Link>
-                                                                        </li>
-                                                                        <li>
-                                                                            {user.status === true ?
-                                                                                <Link className="dropdown-item remove-item-btn" onClick={e => onStatus(e, user.userId, false)}>
-                                                                                    <i className="ri-eye-fill align-bottom me-2 text-muted" />Make InActive
-                                                                                </Link>
-                                                                                :
-                                                                                <Link className="dropdown-item remove-item-btn" onClick={e => onStatus(e, user.userId, true)}>
-                                                                                    <i className="ri-eye-fill align-bottom me-2 text-muted" />Make Active
-                                                                                </Link>
-                                                                            }
-                                                                        </li>
-                                                                    </ul>
+                                                                            :
+                                                                            <Link className="dropdown-item remove-item-btn" onClick={e => onStatus(e, user.userId, true)}>
+                                                                                <i className="ri-user-2-fill align-bottom me-2 text-muted" />
+                                                                            </Link>
+                                                                        }
+                                                                    </div>
+                                                                    <div class="remove">
+                                                                        <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, user.userId)}>
+                                                                            <i className="ri-delete-bin-fill align-bottom me-2 text-muted" />
+                                                                        </Link>
+                                                                    </div>
                                                                 </div>
                                                             </td>
                                                         </tr>
