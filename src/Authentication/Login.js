@@ -159,7 +159,7 @@ export default function Login() {
                       </div>
                       <div className="mb-3">
                         <label className="form-label" htmlFor="password">
-                          Password
+                          Password*
                         </label>
                         <div className="position-relative auth-pass-inputgroup mb-3">
                           <input
@@ -177,7 +177,7 @@ export default function Login() {
                             type="button"
                             id="password-addon"
                           >
-                            <i className="ri-eye-fill align-middle" />
+                            <i className="ri-lock-2-fill align-middle" />
                           </button>
                         </div>
                       </div>
