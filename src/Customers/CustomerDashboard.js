@@ -158,7 +158,7 @@ export default function CustomerDashboard() {
                             Hello, {localStorage.getItem('name')}!
                           </h4>
                           <p className="text-muted mb-0">
-                            Here's gas consumption details .
+                            Gas consumption details .
                           </p>
                         </div>
                         <div className="mt-3 mt-lg-0">
@@ -374,7 +374,7 @@ export default function CustomerDashboard() {
                         <div className="card-header border-0 align-items-center d-flex">
                           <h4 className="card-title mb-0 flex-grow-1">
                             Gas Consumption - Last Updated{' '}
-                            {moment(lastUpdated).format('Do MMM YYYY, h:mm a')}
+                            {moment.utc(lastUpdated).local().format('Do MMM YYYY, h:mm a')}
                           </h4>
                           <div>
                             <button

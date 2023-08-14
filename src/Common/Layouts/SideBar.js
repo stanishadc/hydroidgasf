@@ -143,7 +143,7 @@ export default function Header() {
                   <span className="material-symbols-outlined googleIcons">
                     water_damage
                   </span>
-                  <span data-key="t-dashboards">Organisations</span>
+                  <span data-key="t-dashboards">Organizations</span>
                 </Link>
               </li>
               <li className="nav-item">

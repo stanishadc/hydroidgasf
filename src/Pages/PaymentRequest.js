@@ -264,7 +264,7 @@ export default function PaymentRequest() {
                                                             <td>{index + 1}</td>
                                                             <td>{ticket.name}</td>
                                                             <td>{ticket.amount}</td>
-                                                            <td>{moment(ticket.createdDate).format('MMM Do YYYY')}</td>
+                                                            <td>{moment.utc(ticket.createdDate).local().format('MMM Do YYYY')}</td>
                                                             <td>{ticket.description}</td>
                                                             <td>
                                                                 {ticket.status === 'SUCCESS' ? <span className="badge bg-success">SUCCESS</span> : <span className="badge bg-warning">PENDING</span>}

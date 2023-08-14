@@ -173,14 +173,6 @@ export default function UserMeterReading() {
               <div className="col-12">
                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                   <h4 className="mb-sm-0">Gas Usage Data</h4>
-                  <div className="page-title-right">
-                    <ol className="breadcrumb m-0">
-                      <li className="breadcrumb-item">
-                        <Link>Home</Link>
-                      </li>
-                      <li className="breadcrumb-item active">Gas Usage Data</li>
-                    </ol>
-                  </div>
                 </div>
               </div>
             </div>

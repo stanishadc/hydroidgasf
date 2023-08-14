@@ -63,7 +63,7 @@ export default function Roles() {
             applicationAPI()
                 .create(formData)
                 .then((res) => {
-                    if (res.data.statusCode === 201) {
+                    if (res.data.statusCode === 200) {
                         handleSuccess(res.data.message);
                         resetForm();
                         GetRoles();
@@ -76,7 +76,7 @@ export default function Roles() {
             applicationAPI()
                 .update(formData)
                 .then((res) => {
-                    if (res.data.statusCode === 202) {
+                    if (res.data.statusCode === 200) {
                         handleSuccess(res.data.message);
                         resetForm();
                         GetRoles();
@@ -124,12 +124,6 @@ export default function Roles() {
                             <div className="col-12">
                                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 className="mb-sm-0">Roles</h4>
-                                    <div className="page-title-right">
-                                        <ol className="breadcrumb m-0">
-                                            <li className="breadcrumb-item"><Link>Home</Link></li>
-                                            <li className="breadcrumb-item active">Roles</li>
-                                        </ol>
-                                    </div>
                                 </div>
                             </div>
                         </div>

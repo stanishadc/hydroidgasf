@@ -78,7 +78,7 @@ export default function TicketDetails() {
       applicationAPI()
         .create(formData)
         .then((res) => {
-          if (res.data.statusCode === 201) {
+          if (res.data.statusCode === 200) {
             handleSuccess(res.data.message);
             resetForm();
             GetTicketReplies();
@@ -90,7 +90,7 @@ export default function TicketDetails() {
       applicationAPI()
         .update(formData)
         .then((res) => {
-          if (res.data.statusCode === 201) {
+          if (res.data.statusCode === 200) {
             handleSuccess(res.data.message);
             resetForm();
             GetTicketReplies();
@@ -155,14 +155,6 @@ export default function TicketDetails() {
               <div className="col-12">
                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                   <h4 className="mb-sm-0">Ticket Details</h4>
-                  <div className="page-title-right">
-                    <ol className="breadcrumb m-0">
-                      <li className="breadcrumb-item">
-                        <Link>Home</Link>
-                      </li>
-                      <li className="breadcrumb-item active">Ticket</li>
-                    </ol>
-                  </div>
                 </div>
               </div>
             </div>
@@ -299,9 +291,17 @@ export default function TicketDetails() {
                                   >
                                     {ticketData.ticketPriority}
                                   </span>
-                                ) : (
+                                ) : ticketData.ticketPriority === "MEDIUM"? (
                                   <span
                                     className="badge bg-warning"
+                                    id="t-priority"
+                                  >
+                                    {ticketData.ticketPriority}
+                                  </span>
+                                ):
+                                (
+                                  <span
+                                    className="badge bg-success"
                                     id="t-priority"
                                   >
                                     {ticketData.ticketPriority}

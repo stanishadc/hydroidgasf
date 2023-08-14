@@ -11,13 +11,14 @@ const initialFieldValues = {
     gasPriceId: "00000000-0000-0000-0000-000000000000",
     quantity: 0,
     price: 0,
-    status: true
+    status: "true"
 };
 export default function GasPrice() {
     const [values, setValues] = useState(initialFieldValues);
     const [recordForEdit, setRecordForEdit] = useState(null);
     const [errors, setErrors] = useState({});
     const [gasPrices, setGasPrices] = useState([]);
+    const [gasList, setGasList] = useState(0);
     useEffect(() => {
         if (recordForEdit !== null) setValues(recordForEdit);
     }, [recordForEdit]);
@@ -44,11 +45,15 @@ export default function GasPrice() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validate()) {
+            var status = false;
+            if (values.status === "true" || values.status === true) {
+                status = true;
+            }
             const formData = {
                 "gasPriceId": values.gasPriceId,
                 "quantity": values.quantity,
                 "price": values.price,
-                "status": values.status === "true" ? true : false
+                "status": status
             }
             addOrEdit(formData);
         }
@@ -59,7 +64,7 @@ export default function GasPrice() {
                 axios.post(APIConfig.APIACTIVATEURL + APIConfig.CREATEGASPRICE, JSON.stringify(newrecord), { ...headerconfig }),
             update: (updateRecord) =>
                 axios.put(APIConfig.APIACTIVATEURL + APIConfig.UPDATEGASPRICE, updateRecord),
-            delete: (id) => axios.delete(APIConfig.APIACTIVATEURL + APIConfig.DELETEGASPRICE + "/" + id, { ...headerconfig })
+            delete: (id) => axios.delete(APIConfig.APIACTIVATEURL + APIConfig.DELETEGASPRICE + "?id=" + id, { ...headerconfig })
         };
     };
     const addOrEdit = (formData) => {
@@ -67,7 +72,7 @@ export default function GasPrice() {
             applicationAPI()
                 .create(formData)
                 .then((res) => {
-                    if (res.data.statusCode === 201) {
+                    if (res.data.statusCode === 200) {
                         handleSuccess(res.data.message);
                         resetForm();
                         GetGasPrice();
@@ -80,7 +85,7 @@ export default function GasPrice() {
             applicationAPI()
                 .update(formData)
                 .then((res) => {
-                    if (res.data.status === 200) {
+                    if (res.data.statusCode === 200) {
                         handleSuccess(res.data.message);
                         resetForm();
                         GetGasPrice();
@@ -102,15 +107,22 @@ export default function GasPrice() {
             .get(APIConfig.APIACTIVATEURL + APIConfig.GETALLGASPRICE, { ...headerconfig })
             .then((response) => {
                 setGasPrices(response.data.data.data);
+                setGasList(response.data.data.data.length)
             });
     };
     const onDelete = (e, id) => {
-        if (window.confirm('Are you sure to delete this record?'))
-            applicationAPI().delete(id)
-                .then(res => {
-                    handleSuccess("Record Deleted Succesfully");
-                    GetGasPrice();
-                })
+        if (window.confirm('Are you sure to delete this record?')) {
+            if (gasList > 1) {
+                applicationAPI().delete(id)
+                    .then(res => {
+                        handleSuccess("Record Deleted Succesfully");
+                        GetGasPrice();
+                    })
+            }
+            else {
+                handleError("Minimum one Gas price is mandatory");
+            }
+        }
     }
     const applyErrorClass = (field) =>
         field in errors && errors[field] === false ? " form-control-danger" : "";
@@ -128,12 +140,6 @@ export default function GasPrice() {
                             <div className="col-12">
                                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 className="mb-sm-0">Gas Prices</h4>
-                                    <div className="page-title-right">
-                                        <ol className="breadcrumb m-0">
-                                            <li className="breadcrumb-item"><Link>Home</Link></li>
-                                            <li className="breadcrumb-item active">Gas Prices</li>
-                                        </ol>
-                                    </div>
                                 </div>
                             </div>
                         </div>

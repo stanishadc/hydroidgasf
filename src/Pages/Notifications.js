@@ -51,12 +51,6 @@ export default function Notifications() {
                             <div className="col-12">
                                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 className="mb-sm-0">Notifications</h4>
-                                    <div className="page-title-right">
-                                        <ol className="breadcrumb m-0">
-                                            <li className="breadcrumb-item"><Link>Home</Link></li>
-                                            <li className="breadcrumb-item active">Notifications</li>
-                                        </ol>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +67,6 @@ export default function Notifications() {
                                                     <th data-ordering="false">Notification</th>
                                                     <th data-ordering="false">Notification Type</th>
                                                     <th data-ordering="false">Date</th>
-                                                    <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -82,10 +75,7 @@ export default function Notifications() {
                                                     <tr key={notification.notificationId}>
                                                         <td>{notification.notificationText}</td>
                                                         <td>{notification.type}</td>
-                                                        <td>{moment(notification.createdDate).format('MMM Do YYYY, h:mm a')}</td>
-                                                        <td>
-                                                            {notification.status === true ? <span className="badge bg-success">{UserStatus.ACTIVE}</span> : <span className="badge bg-warning">{UserStatus.INACTIVE}</span>}
-                                                        </td>
+                                                        <td>{moment.utc(notification.createdDate).local().format('MMM Do YYYY, h:mm a')}</td>
                                                         <td>
                                                         <div className="d-flex gap-2">
                                                                 <div className="edit">

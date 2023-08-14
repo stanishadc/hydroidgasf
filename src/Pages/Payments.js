@@ -243,7 +243,7 @@ export default function Payments() {
                                                             <td>{index + 1}</td>
                                                             <td>{p.name}</td>
                                                             <td>{p.amount}</td>
-                                                            <td>{moment(p.createdDate).format('MMM Do YYYY')}</td>
+                                                            <td>{moment.utc(p.createdDate).local().format('MMM Do YYYY')}</td>
                                                             <td>{p.description}</td>
                                                             <td>
                                                                 {p.status === 'SUCCESS' ? <span className="badge bg-success">PAID</span> : <span className="badge bg-warning">PENDING</span>}

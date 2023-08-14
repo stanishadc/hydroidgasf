@@ -66,7 +66,7 @@ export default function UserMeterLeaksData() {
                                                     {leaks.length > 0 && leaks.map((mr, index) =>
                                                         <tr key={mr.id}>
                                                             <td>{index + 1}</td>
-                                                            <td>{moment(mr.time).format('MMM Do YYYY hh:mm a')}</td>
+                                                            <td>{moment.utc(mr.time).local().format('MMM Do YYYY hh:mm a')}</td>
                                                             <td>{mr.deviceId}</td>
                                                             <td>{mr.applicationId}</td>
                                                             <td>{mr.payLoad_ASCII}</td>

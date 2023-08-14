@@ -52,15 +52,18 @@ export default function Tickets() {
   };
   const handleClose = (e, ticketId) => {
     e.preventDefault();
-    const formData = {
-      ticketId: ticketId,
-      ticketStatus: "CLOSED",
-    };
-    axios
-      .post(APIConfig.APIACTIVATEURL + APIConfig.CLOSETICKET, formData)
-      .then((response) => {
-        GetTickets("1");
-      });
+    if (window.confirm('Are you sure to close this ticket?')) {
+
+      const formData = {
+        ticketId: ticketId,
+        ticketStatus: "CLOSED",
+      };
+      axios
+        .post(APIConfig.APIACTIVATEURL + APIConfig.CLOSETICKET, formData)
+        .then((response) => {
+          GetTickets("1");
+        });
+    }
   };
 
   const resetForm = () => {
@@ -132,14 +135,6 @@ export default function Tickets() {
               <div className="col-12">
                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                   <h4 className="mb-sm-0">Tickets</h4>
-                  <div className="page-title-right">
-                    <ol className="breadcrumb m-0">
-                      <li className="breadcrumb-item">
-                        <Link>Home</Link>
-                      </li>
-                      <li className="breadcrumb-item active">Tickets</li>
-                    </ol>
-                  </div>
                 </div>
               </div>
             </div>
@@ -164,8 +159,8 @@ export default function Tickets() {
                             <th data-ordering="false">Category</th>
                             <th data-ordering="false">Name</th>
                             <th data-ordering="false">Query</th>
-                            <th data-ordering="false">Priority</th>
                             <th>Status</th>
+                            <th data-ordering="false">Priority</th>
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -217,15 +212,16 @@ export default function Tickets() {
                                       <Link className="dropdown-item edit-item-btn" to={"/ticketdetails/" + ticket.ticketId}><i className="ri-eye-fill align-bottom me-2 text-muted" /></Link>
                                     </div>
                                     <div class="remove">
-                                      <Link
-                                        onClick={(e) =>
-                                          handleClose(e, ticket.ticketId)
-                                        }
-                                        to={"/ticketdetails/" + ticket.ticketId}
-                                        class="link-danger fs-15"
-                                      >
-                                        <i className="ri-close-circle-fill align-bottom me-2 text-muted" />
-                                      </Link>
+                                      {ticket.ticketStatus !== "CLOSED" ?
+                                        <Link
+                                          onClick={(e) =>
+                                            handleClose(e, ticket.ticketId)
+                                          }
+                                          to={"/ticketdetails/" + ticket.ticketId}
+                                          class="link-danger fs-15"
+                                        >
+                                          <i className="ri-close-circle-fill align-bottom me-2 text-muted" />
+                                        </Link> : ""}
                                     </div>
                                   </div>
                                 </td>

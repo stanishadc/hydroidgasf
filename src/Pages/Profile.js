@@ -61,8 +61,8 @@ export default function UserProfile() {
         applicationAPI()
             .update(formData)
             .then((res) => {
-                if (res.data.response.succeeded === true) {
-                    handleSuccess(res.data.response.message);
+                if (res.data.status === 200) {
+                    handleSuccess(res.data.message);
                     GetUserData();
                 }
                 else {
@@ -93,12 +93,6 @@ export default function UserProfile() {
                             <div className="col-12">
                                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 className="mb-sm-0">User Profile</h4>
-                                    <div className="page-title-right">
-                                        <ol className="breadcrumb m-0">
-                                            <li className="breadcrumb-item"><Link>Home</Link></li>
-                                            <li className="breadcrumb-item active">User Profile</li>
-                                        </ol>
-                                    </div>
                                 </div>
                             </div>
                         </div>

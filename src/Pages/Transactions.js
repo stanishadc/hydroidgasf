@@ -68,13 +68,7 @@ export default function Transactions() {
                         <div className="row">
                             <div className="col-12">
                                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 className="mb-sm-0">Payments</h4>
-                                    <div className="page-title-right">
-                                        <ol className="breadcrumb m-0">
-                                            <li className="breadcrumb-item"><Link>Home</Link></li>
-                                            <li className="breadcrumb-item active">Payments</li>
-                                        </ol>
-                                    </div>
+                                    <h4 className="mb-sm-0">Transactions</h4>
                                 </div>
                             </div>
                         </div>
@@ -107,10 +101,10 @@ export default function Transactions() {
                                                             <td>{p.referenceNo}</td>
                                                             <td>{p.gasQuantity}</td>                                                            
                                                             <td>{p.amount}</td>
-                                                            <td>{moment(p.paymentDate).format('MMM Do YYYY hh:mm a')}</td>
+                                                            <td>{moment.utc(p.paymentDate).local().format('MMM Do YYYY hh:mm a')}</td>
                                                             <td>{p.customer}</td>
                                                             <td>
-                                                                {p.status === 'SUCCESS' ? <span className="badge bg-success">PAID</span> : <span className="badge bg-warning">PENDING</span>}
+                                                                {p.status === 'SUCCESS' ? <span className="badge bg-success">SUCCESS</span> : <span className="badge bg-warning">FAILED</span>}
                                                             </td>
                                                         </tr>
                                                     )}

@@ -81,11 +81,11 @@ export default function PaymentDetails() {
                                                     </tr>
                                                     <tr>
                                                         <td className="fw-medium">Payment Date</td>
-                                                        <td id="c-date">{moment(paymentData.paymentDate).format('MMM Do YYYY, h:mm a')}</td>
+                                                        <td id="c-date">{moment.utc(paymentData.paymentDate).local().format('MMM Do YYYY, h:mm a')}</td>
                                                     </tr>
                                                     <tr>
                                                         <td className="fw-medium">Requested Date</td>
-                                                        <td id="c-date">{moment(paymentData.createdDate).format('MMM Do YYYY, h:mm a')}</td>
+                                                        <td id="c-date">{moment.utc(paymentData.createdDate).local().format('MMM Do YYYY, h:mm a')}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
