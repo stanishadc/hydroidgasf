@@ -94,6 +94,22 @@ export default function Header() {
                   <span data-key="t-dashboards">Leaks</span>
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links"
+                  to={'/contact'}>
+                  <i className="mdi mdi-logout text-muted fs-16 align-middle me-1" />
+                  <span data-key="t-dashboards">Contact</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links"
+                  to={'/logout'}>
+                  <i className="mdi mdi-logout text-muted fs-16 align-middle me-1" />
+                  <span data-key="t-dashboards">Logout</span>
+                </Link>
+              </li>
             </ul>
           ) : localStorage.getItem('roleName') === 'Super Admin' ? (
             <ul className="navbar-nav" id="navbar-nav">
@@ -102,7 +118,7 @@ export default function Header() {
                   className="nav-link menu-link ovr-nav-links"
                   to={'/superadmin/dashboard'}
                 >
-                  <i className="ri-dashboard-fill" />{' '}
+                  <i className="ri-dashboard-fill" />
                   <span data-key="t-dashboards">Dashboard</span>
                 </Link>
               </li>
@@ -122,7 +138,7 @@ export default function Header() {
                   className="nav-link menu-link ovr-nav-links"
                   to={'/gasprices'}
                 >
-                  <i className="ri-dashboard-2-line" />{' '}
+                  <i className="ri-dashboard-2-line" />
                   <span data-key="t-dashboards">GasPrices</span>
                 </Link>
               </li>
@@ -131,64 +147,75 @@ export default function Header() {
                   className="nav-link menu-link ovr-nav-links"
                   to={'/devices'}
                 >
-                  <i className="ri-tv-2-line" />{' '}
+                  <i className="ri-tv-2-line" />
                   <span data-key="t-dashboards">Devices</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link
-                  className="nav-link menu-link ovr-nav-links"
-                  to={'/organisations'}
-                >
+                <a className="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                   <span className="material-symbols-outlined googleIcons">
-                    water_damage
-                  </span>
-                  <span data-key="t-dashboards">Organizations</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link menu-link ovr-nav-links"
-                  to={'/apartments'}
-                >
-                  <span className="material-symbols-outlined googleIcons">
-                    apartment
-                  </span>
-                  <span data-key="t-dashboards">Apartments</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link menu-link ovr-nav-links"
-                  to={'/blocks'}
-                >
-                  <span className="material-symbols-outlined googleIcons">
-                    crop_square
-                  </span>
-                  <span data-key="t-dashboards">Blocks</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link menu-link ovr-nav-links"
-                  to={'/floors'}
-                >
-                  <span className="material-symbols-outlined googleIcons">
-                    segment
-                  </span>
-                  <span data-key="t-dashboards">Floors</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link menu-link ovr-nav-links"
-                  to={'/units'}
-                >
-                  <span className="material-symbols-outlined googleIcons">
-                    grid_view
-                  </span>
-                  <span data-key="t-dashboards">Units</span>
-                </Link>
+                          water_damage
+                        </span><span data-key="t-dashboards">Organizations</span>
+                </a>
+                <div className="collapse menu-dropdown" id="sidebarDashboards">
+                  <ul className="nav nav-sm flex-column">
+                    <li className="nav-item">
+                      <Link
+                        className="nav-link menu-link ovr-nav-links"
+                        to={'/organisations'}
+                      >
+                        <span className="material-symbols-outlined googleIcons">
+                          water_damage
+                        </span>
+                        <span data-key="t-dashboards">Organizations</span>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        className="nav-link menu-link ovr-nav-links"
+                        to={'/apartments'}
+                      >
+                        <span className="material-symbols-outlined googleIcons">
+                          apartment
+                        </span>
+                        <span data-key="t-dashboards">Apartments</span>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        className="nav-link menu-link ovr-nav-links"
+                        to={'/blocks'}
+                      >
+                        <span className="material-symbols-outlined googleIcons">
+                          crop_square
+                        </span>
+                        <span data-key="t-dashboards">Blocks</span>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        className="nav-link menu-link ovr-nav-links"
+                        to={'/floors'}
+                      >
+                        <span className="material-symbols-outlined googleIcons">
+                          segment
+                        </span>
+                        <span data-key="t-dashboards">Floors</span>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        className="nav-link menu-link ovr-nav-links"
+                        to={'/units'}
+                      >
+                        <span className="material-symbols-outlined googleIcons">
+                          grid_view
+                        </span>
+                        <span data-key="t-dashboards">Units</span>
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
               </li>
               <li className="nav-item">
                 <Link
@@ -199,6 +226,15 @@ export default function Header() {
                     local_activity
                   </span>
                   <span data-key="t-dashboards">Tickets</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links"
+                  to={'/admins'}
+                >
+                  <i className="mdi mdi-account-circle text-muted fs-16 align-middle me-1" />
+                  <span data-key="t-dashboards">Admins</span>
                 </Link>
               </li>
               <li className="nav-item">
@@ -224,7 +260,7 @@ export default function Header() {
                   className="nav-link menu-link ovr-nav-links"
                   to={'/leaks'}
                 >
-                  <i className="ri-notification-2-fill" />{' '}
+                  <i className="ri-notification-2-fill" />
                   <span data-key="t-dashboards">Leaks</span>
                 </Link>
               </li>
@@ -233,8 +269,27 @@ export default function Header() {
                   className="nav-link menu-link ovr-nav-links"
                   to={'/messages'}
                 >
-                  <i className="ri-building-4-fill" />{' '}
+                  <i className="ri-building-4-fill" />
                   <span data-key="t-dashboards">Messages</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+              <Link className="nav-link menu-link ovr-nav-links" to={'/profile'}>
+                  <i className="mdi mdi-account-circle text-muted fs-16 align-middle me-1" />
+                  <span className="align-middle">Profile</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+              <Link className="nav-link menu-link ovr-nav-links" to={"/changepassword"}>
+                <i className="mdi mdi-lock text-muted fs-16 align-middle me-1" />
+                <span className="align-middle">Change Password</span></Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links"
+                  to={'/logout'}>
+                  <i className="mdi mdi-logout text-muted fs-16 align-middle me-1" />
+                  <span data-key="t-dashboards">Logout</span>
                 </Link>
               </li>
             </ul>
@@ -254,7 +309,7 @@ export default function Header() {
                   className="nav-link menu-link ovr-nav-links ovr-nav-links"
                   to={'/meterreading'}
                 >
-                  <i className="ri-dashboard-2-line" />{' '}
+                  <i className="ri-dashboard-2-line" />
                   <span data-key="t-dashboards">Gas Usage Data</span>
                 </Link>
               </li>
@@ -307,7 +362,7 @@ export default function Header() {
                   className="nav-link menu-link ovr-nav-links ovr-nav-links"
                   to={'/transactions'}
                 >
-                  <i className="ri-money-dollar-box-line" />{' '}
+                  <i className="ri-money-dollar-box-line" />
                   <span data-key="t-dashboards">Transactions</span>
                 </Link>
               </li>
@@ -316,7 +371,7 @@ export default function Header() {
                   className="nav-link menu-link ovr-nav-links ovr-nav-links"
                   to={'/notifications'}
                 >
-                  <i className="ri-notification-2-fill" />{' '}
+                  <i className="ri-notification-2-fill" />
                   <span data-key="t-dashboards">Notifications</span>
                 </Link>
               </li>
@@ -351,6 +406,25 @@ export default function Header() {
                     sms
                   </span>
                   <span data-key="t-dashboards">Messages</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+              <Link className="nav-link menu-link ovr-nav-links" to={'/profile'}>
+                  <i className="mdi mdi-account-circle text-muted fs-16 align-middle me-1" />
+                  <span className="align-middle">Profile</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+              <Link className="nav-link menu-link ovr-nav-links" to={"/changepassword"}>
+                <i className="mdi mdi-lock text-muted fs-16 align-middle me-1" />
+                <span className="align-middle">Change Password</span></Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link menu-link ovr-nav-links"
+                  to={'/logout'}>
+                  <i className="mdi mdi-logout text-muted fs-16 align-middle me-1" />
+                  <span data-key="t-dashboards">Logout</span>
                 </Link>
               </li>
             </ul>

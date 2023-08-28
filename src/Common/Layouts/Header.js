@@ -73,19 +73,18 @@ export default function Header(props) {
                 </span>
               </button>
               <NotificationsUI></NotificationsUI>
-              <div className="dropdown-menu dropdown-menu-end">
+              {/* <div className="dropdown-menu dropdown-menu-end">
                 <Link className="dropdown-item" to={'/profile'}>
                   <i className="mdi mdi-account-circle text-muted fs-16 align-middle me-1" />{' '}
                   <span className="align-middle">Profile</span>
-                </Link>
-                {/* <Link className="dropdown-item" to={"/changepassword"}><i className="mdi mdi-lock text-muted fs-16 align-middle me-1" /> <span className="align-middle">Change Password</span></Link> */}
+                </Link>                
                 <Link className="dropdown-item" to={'/logout'}>
                   <i className="mdi mdi-logout text-muted fs-16 align-middle me-1" />{' '}
                   <span className="align-middle" data-key="t-logout">
                     Logout
                   </span>
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

@@ -29,6 +29,8 @@ import Payment from "./Pages/Payment";
 import UserMeterLeaksData from "./Customers/UserMeterLeaksData";
 import LeaksData from "./SuperAdmin/LeaksData";
 import Messages from "./SuperAdmin/Messages";
+import Contact from "./Pages/Contact";
+import Admins from "./SuperAdmin/Admins";
 function App() {
   return (
       <Routes>
@@ -68,6 +70,8 @@ function App() {
         <Route path="/user/leaks" element={ <UserMeterLeaksData/> } />
         <Route path="/leaks" element={ <LeaksData/> } />
         <Route path="/gasprices" element={ <GasPrices/> } />
+        <Route path="/contact" element={ <Contact/> } />
+        <Route path="/admins" element={ <Admins/> } />
       </Routes>
   );
 }

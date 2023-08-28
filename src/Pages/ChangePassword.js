@@ -3,7 +3,7 @@ import SideBar from "../Common/Layouts/SideBar";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import {APIConfig} from "../Common/Configurations/APIConfig";
+import { APIConfig } from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 const initialChangePasswordValues = {
     userId: localStorage.getItem('userId'),
@@ -13,7 +13,7 @@ const initialChangePasswordValues = {
 export default function ChangePassword() {
     const [values, setValues] = useState(initialChangePasswordValues);
     const [errors, setErrors] = useState({});
-    const [confirmPassword, setConfirmPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState("")
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setValues({
@@ -31,6 +31,7 @@ export default function ChangePassword() {
         let temp = {};
         temp.oldPassword = values.oldPassword === "" ? false : true;
         temp.newPassword = values.newPassword === "" ? false : true;
+        temp.confirmPassword = values.confirmPassword === "" ? false : true;
         setErrors(temp);
         return Object.values(temp).every((x) => x === true);
     };
@@ -53,11 +54,11 @@ export default function ChangePassword() {
         applicationAPI().postchangepassword(changePasswordData)
             .then(res => {
                 if (res.data.statusCode === 200) {
-                    handleSuccess(res.data.message);
+                    handleSuccess(res.data.response.message);
                     clearForm();
                 }
                 else {
-                    handleError(res.data.message);
+                    handleError(res.data.response.message);
                 }
             })
     }
@@ -75,9 +76,11 @@ export default function ChangePassword() {
         return true;
     }
     const clearForm = () => {
-        values.oldPassword="";
-        values.newPassword="";
-        values.confirmPassword="";
+        values.oldPassword = "";
+        values.newPassword = "";
+        setConfirmPassword("");
+        values.confirmPassword = "";
+        
     };
     const applyErrorClass = (field) =>
         field in errors && errors[field] === false ? " form-control-danger" : "";

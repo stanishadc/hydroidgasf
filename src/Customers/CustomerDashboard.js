@@ -22,6 +22,7 @@ export default function CustomerDashboard() {
   const [lastUpdated, setLastUpdated] = useState(new Date());
   const [weeklyUsage, setWeeklyUsage] = useState(0);
   const [monthlyUsage, setMonthlyUsage] = useState(0);
+  const [pendingGas, setPendingGas] = useState(20);
   const GasConsumptionHourly = () => {
     var options = {
       chart: {
@@ -181,7 +182,7 @@ export default function CustomerDashboard() {
                     {/*end col*/}
                   </div>
                   <div className="row">
-                    <div className="col-xl-3 col-md-6">
+                    <div className="col-xl-2 col-md-6">
                       {/* card */}
                       <div
                         className="card card-animate"
@@ -204,7 +205,7 @@ export default function CustomerDashboard() {
                                 className="fs-22 fw-semibold ff-secondary mb-4"
                                 style={{ color: '#fff' }}
                               >
-                                <CountUp end={last24hours} /> litres
+                                <CountUp end={last24hours} /> Kgs
                               </h4>
                             </div>
                             <div className="avatar-sm flex-shrink-0">
@@ -228,7 +229,7 @@ export default function CustomerDashboard() {
                       {/* end card */}
                     </div>
                     {/* end col */}
-                    <div className="col-xl-3 col-md-6">
+                    <div className="col-xl-2 col-md-6">
                       {/* card */}
                       <div
                         className="card card-animate"
@@ -251,7 +252,7 @@ export default function CustomerDashboard() {
                                 className="fs-22 fw-semibold ff-secondary mb-4"
                                 style={{ color: '#fff' }}
                               >
-                                <CountUp end={weeklyUsage} /> litres
+                                <CountUp end={weeklyUsage} /> Kgs
                               </h4>
                             </div>
                             <div className="avatar-sm flex-shrink-0">
@@ -275,7 +276,7 @@ export default function CustomerDashboard() {
                       {/* end card */}
                     </div>
                     {/* end col */}
-                    <div className="col-xl-3 col-md-6">
+                    <div className="col-xl-2 col-md-6">
                       {/* card */}
                       <div
                         className="card card-animate"
@@ -298,7 +299,7 @@ export default function CustomerDashboard() {
                                 className="fs-22 fw-semibold ff-secondary mb-4"
                                 style={{ color: '#fff' }}
                               >
-                                <CountUp end={monthlyUsage} /> litres
+                                <CountUp end={monthlyUsage} /> Kgs
                               </h4>
                             </div>
                             <div className="avatar-sm flex-shrink-0">
@@ -321,7 +322,7 @@ export default function CustomerDashboard() {
                       </div>
                       {/* end card */}
                     </div>
-                    <div className="col-xl-3 col-md-6">
+                    <div className="col-xl-2 col-md-6">
                       {/* card */}
                       <div
                         className="card card-animate"
@@ -362,6 +363,39 @@ export default function CustomerDashboard() {
                               </span>
                             </div>
                           </div>
+                        </div>
+                        {/* end card body */}
+                      </div>
+                      {/* end card */}
+                    </div>
+                    <div className="col-xl-2 col-md-6">
+                      {/* card */}
+                      <div
+                        className="card card-animate"
+                        style={{ backgroundColor: '#164A43' }}
+                      >
+                        <div className="card-body">
+                          <div className="d-flex align-items-center">
+                            <div className="flex-grow-1 overflow-hidden">
+                              <p
+                                className="text-uppercase fw-medium text-truncate mb-0"
+                                style={{ color: '#fff' }}
+                              >
+                                Gas Available
+                              </p>
+                            </div>
+                          </div>
+                          <div className="d-flex align-items-end justify-content-between mt-4">
+                            <div>
+                              <h4
+                                className="fs-22 fw-semibold ff-secondary mb-4"
+                                style={{ color: '#fff' }}
+                              >
+                                {pendingGas}%
+                              </h4>
+                            </div>
+                            <Link to={"/recharge"} className="text-decoration-underline" style={{ color: '#fff' }}>Recharge Now</Link>
+                          </div>                          
                         </div>
                         {/* end card body */}
                       </div>

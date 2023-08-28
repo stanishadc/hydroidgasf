@@ -14,6 +14,11 @@ export const APIConfig = {
   DELETEGASPRICE: 'GasPrice',
   GETGASPRICEBYID: 'GasPrice/GetById',
 
+  GETALLCONTACT: 'Contact/Get',
+  CREATECONTACT: 'Contact',
+  UPDATECONTACT: 'Contact',
+  GETCONTACTBYDEALER: 'Contact/GetByDealer',
+
   GETALLROLES: 'Roles',
   CREATEROLE: 'Roles',
   UPDATEROLE: 'Roles',
@@ -22,6 +27,7 @@ export const APIConfig = {
 
   GETALLUSERS: 'Users',
   GETALLCUSTOMERS: 'Users/GetCustomers',
+  GETALLADMINS: 'Users/GetAdmins',
   CREATEUSER: 'Users/CreateUser',
   LOGINUSER: 'Users/Login',
   CHANGEPASSWORD: 'Users/ChangePassword',
