@@ -257,7 +257,7 @@ export default function MeterReading() {
                             <th data-ordering="false">Device ID</th>
                             <th data-ordering="false">Application ID</th>
                             <th data-ordering="false">Reading</th>
-                            <th data-ordering="false">Usage (litres)</th>
+                            <th data-ordering="false">Usage (Kgs)</th>
                           </tr>
                         </thead>
                         <tbody>
