@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 import { APIConfig } from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
+import readXlsxFile from 'read-excel-file';
 const initialFieldValues = {
     id: 0,
     deviceId: "",
@@ -50,6 +51,13 @@ export default function Devices() {
         setErrors(temp);
         return Object.values(temp).every((x) => x === true);
     };
+    const validateFile = () => {
+        let temp = {};
+        const inputBD = document.getElementById('inputBD')
+        temp.inputBD = inputBD.value === "" ? false : true;
+        setErrors(temp);
+        return Object.values(temp).every((x) => x === true);
+    };
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validate()) {
@@ -58,7 +66,7 @@ export default function Devices() {
                 "userId": values.userId,
                 "deviceId": values.deviceId,
                 "applicationId": values.applicationId,
-                "status": values.status === "true" ? true : false
+                "status": values.status === "false" ? false : true
             }
             addOrEdit(formData);
         }
@@ -130,6 +138,29 @@ export default function Devices() {
     const showEditDetails = (data) => {
         setRecordForEdit(data);
     };
+    const UploadBulk = (e) => {
+        if (validateFile()) {
+            const input = document.getElementById('inputBD')
+            readXlsxFile(input.files[0]).then((rows) => {
+                for (var i = 0; i < rows.length; i++) {
+                    if (i != 0) {
+                        var data = rows[i];
+                        var deviceId = data[0];
+                        var applicationId = data[1];
+                        const formData = {
+                            "id": values.id,
+                            "userId": values.userId,
+                            "deviceId": deviceId,
+                            "applicationId": applicationId,
+                            "status": values.status
+                        }
+                        addOrEdit(formData);
+                    }
+                }
+                input.value = '';
+            })
+        }
+    };
     const GetLastPageData = () => {
         GetDevices(totalPages)
     }
@@ -200,6 +231,19 @@ export default function Devices() {
                                         <div className="hstack gap-2 justify-content-end mb-3 mt-4">
                                             <button type="submit" className="btn btn-primary">Submit</button>
                                             <button type="button" className="btn btn-danger" onClick={resetForm}>Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-lg-3">
+                                        <div className="mb-4">
+                                            <label htmlFor="deviceId" className="form-label">Upload Bulk Devices</label>
+                                            <input type="file" id="inputBD" className={"form-control" + applyErrorClass('inputBD')} />
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-1">
+                                        <div className="hstack gap-2 justify-content-end mb-3 mt-4">
+                                            <button type="button" onClick={e => UploadBulk(e)} className="btn btn-primary">Upload</button>
                                         </div>
                                     </div>
                                 </div>

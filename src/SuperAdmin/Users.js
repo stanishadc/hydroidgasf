@@ -52,7 +52,6 @@ export default function Users() {
         temp.name = values.name === "" ? false : true;
         temp.email = values.email === "" ? false : true;
         temp.phoneNo = values.phoneNo === "" ? false : true;
-        temp.roleId = values.roleId === "00000000-0000-0000-0000-000000000000" ? false : true;
         setErrors(temp);
         return Object.values(temp).every((x) => x === true);
     };

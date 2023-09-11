@@ -6,7 +6,20 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 import { APIConfig } from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
+const initialFieldValues = {
+    userId: "00000000-0000-0000-0000-000000000000",
+    userName: "",
+    password: "",
+    roleId: "00000000-0000-0000-0000-000000000000",
+    status: true,
+    name: "",
+    email: "",
+    phoneNo: "",
+    city: "",
+    country: ""
+};
 export default function Admins() {
+    const [values, setValues] = useState(initialFieldValues);
     const [errors, setErrors] = useState({});
     const [users, setUsers] = useState([]);
     const [roles, setRoles] = useState([]);
@@ -25,6 +38,23 @@ export default function Admins() {
             'Content-Type': 'application/json'
         }
     }
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setValues({
+            ...values,
+            [name]: value,
+        });
+    };
+    const validate = () => {
+        let temp = {};
+        temp.userName = values.userName === "" ? false : true;
+        temp.password = values.password === "" ? false : true;
+        temp.name = values.name === "" ? false : true;
+        temp.email = values.email === "" ? false : true;
+        temp.phoneNo = values.phoneNo === "" ? false : true;
+        setErrors(temp);
+        return Object.values(temp).every((x) => x === true);
+    };
     const GetUsers = (number) => {
         axios
             .get(APIConfig.APIACTIVATEURL + APIConfig.GETALLADMINS + "?pageNumber=" + number + "&pageSize=" + pageSize + "", { ...headerconfig })
@@ -61,6 +91,67 @@ export default function Admins() {
             </li>
         );
     });
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (validate()) {
+            const formData = {
+                "userId": values.userId,
+                "userName": values.userName,
+                "password": values.password,
+                "roleId": values.roleId,
+                "status": values.status,
+                "name": values.name,
+                "email": values.email,
+                "phoneNo": values.phoneNo,
+                "city": values.city,
+                "country": values.country
+            }
+            addOrEdit(formData);
+        }
+    };
+    const applicationAPI = () => {
+        return {
+            create: (newrecord) =>
+                axios.post(APIConfig.APIACTIVATEURL + APIConfig.CREATEADMIN, JSON.stringify(newrecord), { ...headerconfig }),
+            delete: (id) => axios.delete(APIConfig.APIACTIVATEURL + APIConfig.DELETEUSER + "/" + id, { ...headerconfig }),
+            userstatus: (id, ustatus) => axios.post(APIConfig.APIACTIVATEURL + APIConfig.USERSTATUS + "?userId=" + id + "&status=" + ustatus, { ...headerconfig })
+        };
+    };
+    const addOrEdit = (formData) => {
+        if (formData.userId === "00000000-0000-0000-0000-000000000000") {
+            applicationAPI()
+                .create(formData)
+                .then((res) => {
+                    if (res.data.statusCode === 200) {
+                        handleSuccess(res.data.message);
+                        resetForm();
+                        GetUsers(pageNumber);
+                    }
+                    else {
+                        handleError(res.data.message);
+                    }
+                });
+        }
+    };
+    const onDelete = (e, id) => {
+        if (window.confirm('Are you sure to delete this record?'))
+            applicationAPI().delete(id)
+                .then(res => {
+                    handleSuccess("Record Deleted Succesfully");
+                    GetUsers(pageNumber);
+                })
+    }
+    const onStatus = (e, id, ustatus) => {
+        if (window.confirm('Are you sure to update this record?'))
+            applicationAPI().userstatus(id, ustatus)
+                .then(res => {
+                    handleSuccess("Status changed succesfully");
+                    GetUsers(pageNumber);
+                })
+    }
+    const resetForm = () => {
+        setValues(initialFieldValues);
+    };
     const applyErrorClass = (field) =>
         field in errors && errors[field] === false ? " form-control-danger" : "";
     useEffect(() => {
@@ -76,9 +167,73 @@ export default function Admins() {
                         <div className="row">
                             <div className="col-12">
                                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 className="mb-sm-0">Users</h4>
+                                    <h4 className="mb-sm-0">Admins</h4>
                                 </div>
                             </div>
+                        </div>
+                        <div className="alert alert-success">
+                            <form onSubmit={handleSubmit} autoComplete="off" noValidate>
+                                <div className="row">
+                                <div className="col-lg-3">
+                                        <div className="mb-3">
+                                            <label htmlFor="name" className="form-label">Name</label>
+                                            <input type="text" value={values.name} name="name" onChange={handleInputChange} className={"form-control" + applyErrorClass('name')} placeholder="Name" />
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <div className="mb-4">
+                                            <label htmlFor="userName" className="form-label">UserName</label>
+                                            <input type="text" value={values.userName} name="userName" onChange={handleInputChange} className={"form-control" + applyErrorClass('userName')} placeholder="User Name" />
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <div className="mb-4">
+                                            <label htmlFor="password" className="form-label">Password</label>
+                                            <input type="password" value={values.password} name="password" onChange={handleInputChange} className={"form-control" + applyErrorClass('password')} placeholder="Password" />
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <div className="mb-4">
+                                            <label htmlFor="status" className="form-label">Status</label>
+                                            <select value={values.status} onChange={handleInputChange} placeholder="User Status" name="status" className={"form-control" + applyErrorClass('status')}>
+                                                {statusvalues.map(sv =>
+                                                    <option value={sv.value}>{sv.label}</option>
+                                                )}
+                                            </select>
+                                        </div>
+                                    </div>                                    
+                                    <div className="col-lg-3">
+                                        <div className="mb-3">
+                                            <label htmlFor="email" className="form-label">Email</label>
+                                            <input type="text" value={values.email} name="email" onChange={handleInputChange} className={"form-control" + applyErrorClass('email')} placeholder="Email" />
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <div className="mb-3">
+                                            <label htmlFor="phoneNo" className="form-label">Phone No</label>
+                                            <input type="text" value={values.phoneNo} name="phoneNo" onChange={handleInputChange} className={"form-control" + applyErrorClass('phoneNo')} placeholder="Phone No" />
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <div className="mb-3">
+                                            <label htmlFor="city" className="form-label">City</label>
+                                            <input type="text" value={values.city} name="city" onChange={handleInputChange} className={"form-control" + applyErrorClass('city')} placeholder="City" />
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <div className="mb-3">
+                                            <label htmlFor="country" className="form-label">Country</label>
+                                            <input type="text" value={values.country} name="country" onChange={handleInputChange} className={"form-control" + applyErrorClass('country')} placeholder="Country" />
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-2">
+                                        <div className="hstack gap-2 justify-content-end mb-3 mt-4">
+                                            <button type="submit" className="btn btn-primary">Submit</button>
+                                            <button type="button" className="btn btn-danger" onClick={resetForm}>Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                         <div className="row">
                             <div className="col-lg-12">
@@ -107,6 +262,26 @@ export default function Admins() {
                                                             <td>{user.roleName}</td>
                                                             <td>
                                                                 {user.status === true ? <span className="badge bg-success">{UserStatus.ACTIVE}</span> : <span className="badge bg-warning">{UserStatus.INACTIVE}</span>}
+                                                            </td>
+                                                            <td>
+                                                                <div className="d-flex gap-2">
+                                                                    <div className="edit">
+                                                                        {user.status === true ?
+                                                                            <Link className="dropdown-item remove-item-btn" onClick={e => onStatus(e, user.userId, false)}>
+                                                                                <i className="ri-user-2-fill align-bottom me-2" />
+                                                                            </Link>
+                                                                            :
+                                                                            <Link className="dropdown-item remove-item-btn" onClick={e => onStatus(e, user.userId, true)}>
+                                                                                <i className="ri-user-2-fill align-bottom me-2 text-muted" />
+                                                                            </Link>
+                                                                        }
+                                                                    </div>
+                                                                    <div class="remove">
+                                                                        <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, user.userId)}>
+                                                                            <i className="ri-delete-bin-fill align-bottom me-2 text-muted" />
+                                                                        </Link>
+                                                                    </div>
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     )}

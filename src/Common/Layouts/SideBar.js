@@ -300,7 +300,7 @@ export default function Header() {
                   className="nav-link menu-link ovr-nav-links ovr-nav-links"
                   to={'/admin/dashboard'}
                 >
-                  <i className="ri-dashboard-fill" />{' '}
+                  <i className="ri-dashboard-fill" />
                   <span data-key="t-dashboards">Dashboard</span>
                 </Link>
               </li>
