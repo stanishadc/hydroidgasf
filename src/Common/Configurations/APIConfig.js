@@ -3,7 +3,7 @@ export const APIConfig = {
   RAZORPAY_KEY_ID:'rzp_test_HAF6HCcH7moc64',
   APILOCALURL: 'https://localhost:7085/api/',
   APISERVERURL: 'https://hydroidgas.azurewebsites.net/api/',
-  APIACTIVATEURL: 'https://localhost:7085/api/',
+  APIACTIVATEURL: 'https://hydroidgas.azurewebsites.net/api/',
   LOCALWEBURL:'http://localhost:3000/',
   DEVWEBURL:'http://hydroidgas.developerscode.com/',
   DOMAINACTIVATEURL: 'http://localhost:3000/',
