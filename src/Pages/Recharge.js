@@ -3,7 +3,7 @@ import SideBar from "../Common/Layouts/SideBar";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {APIConfig} from "../Common/Configurations/APIConfig";
+import APIConfig from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 import moment from "moment";
 const initialValues = {
@@ -95,10 +95,10 @@ export default function Recharge() {
       return;
     }
     // Getting the order details back
-    const { amount, id: order_id, currency } = result.data.data;
+    const { amount, id: order_id, currency, razorpayKey } = result.data.data;
 
     const options = {
-      key: APIConfig.RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
+      key: razorpayKey, // Enter the Key ID generated from the Dashboard
       amount: amount,
       currency: currency,
       name: "ino-fi solutions pvt ltd.",
@@ -283,7 +283,7 @@ export default function Recharge() {
                     />
                   </div>
                 </div>
-                <div className="col-lg-1">
+                <div className="col-lg-2">
                   <div className="hstack gap-2 justify-content-end mb-3 mt-4">
                     <button
                       onClick={(e) => displayRazorpay(e)}
@@ -322,11 +322,9 @@ export default function Recharge() {
                                 <tr key={p.transactionId}>
                                   <td>{p.referenceNo}</td>
                                   <td>{p.amount}</td>
-                                  <td>{p.gasQuantity}</td>
+                                  <td>{p.gasQuantity} Kgs</td>
                                   <td>
-                                    {moment(p.paymentDate).format(
-                                      "MMM Do YYYY, h:mm a"
-                                    )}
+                                  {moment.utc(p.paymentDate).local().format('Do MMM YYYY, h:mm a')}
                                   </td>
                                   <td>
                                     {p.status === "SUCCESS" ? (

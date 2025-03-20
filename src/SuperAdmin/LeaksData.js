@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import moment from "moment";
-import {APIConfig} from "../Common/Configurations/APIConfig";
+import config from "../Common/Configurations/APIConfig";
 export default function LeaksData() {
     const [leaks, setLeaks] = useState([]);
     
@@ -16,7 +16,7 @@ export default function LeaksData() {
     }
     const GetLeakData = () => {
         axios
-            .post(APIConfig.APIACTIVATEURL + APIConfig.GETLEAKDATA, { ...headerconfig })
+            .post(config.APIACTIVATEURL + config.GETLEAKDATA, { ...headerconfig })
             .then((response) => {
                     setLeaks(response.data.data);
             });
@@ -35,6 +35,12 @@ export default function LeaksData() {
                             <div className="col-12">
                                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 className="mb-sm-0">Leaks Information Data</h4>
+                                    <div className="page-title-right">
+                                        <ol className="breadcrumb m-0">
+                                            <li className="breadcrumb-item"><Link>Home</Link></li>
+                                            <li className="breadcrumb-item active">Leaks Data</li>
+                                        </ol>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -51,8 +57,9 @@ export default function LeaksData() {
                                                     <tr>
                                                         <th data-ordering="false">Id</th>
                                                         <th data-ordering="false">Date and Time</th>
-                                                        <th data-ordering="false">Device ID</th>
-                                                        <th data-ordering="false">Application ID</th>
+                                                        <th data-ordering="false">Meter For</th>
+                                                        <th data-ordering="false">End Device</th>
+                                                        <th data-ordering="false">User</th>
                                                         <th data-ordering="false">Reading</th>
                                                     </tr>
                                                 </thead>
@@ -60,9 +67,10 @@ export default function LeaksData() {
                                                     {leaks.length > 0 && leaks.map((mr, index) =>
                                                         <tr key={mr.id}>
                                                             <td>{index + 1}</td>
-                                                            <td>{moment.utc(mr.time).local().format('MMM Do YYYY hh:mm a')}</td>
-                                                            <td>{mr.deviceId}</td>
-                                                            <td>{mr.applicationId}</td>
+                                                            <td>{moment(mr.createdDate).format('MMM Do YYYY hh:mm a')}</td>
+                                                            <td>{mr.deviceName}</td>
+                                                            <td>{mr.endDeviceId}</td>
+                                                            <td>{mr.userName}</td>
                                                             <td>{mr.payLoad_ASCII}</td>
                                                         </tr>
                                                     )}

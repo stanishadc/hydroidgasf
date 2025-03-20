@@ -3,7 +3,7 @@ import SideBar from "../Common/Layouts/SideBar";
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import {APIConfig} from "../Common/Configurations/APIConfig";
+import config from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 import moment from "moment";
 export default function PaymentDetails() {
@@ -17,7 +17,7 @@ export default function PaymentDetails() {
     }
     const GetPaymentDetails = () => {
         axios
-            .get(APIConfig.APIACTIVATEURL + APIConfig.GETNPAYMENTREQUESTBYID + "/" + paymentId, { ...headerconfig })
+            .get(config.APIACTIVATEURL + config.GETNPAYMENTREQUESTBYID + "/" + paymentId, { ...headerconfig })
             .then((response) => {
                 setPaymentData(response.data);
             });
@@ -81,11 +81,11 @@ export default function PaymentDetails() {
                                                     </tr>
                                                     <tr>
                                                         <td className="fw-medium">Payment Date</td>
-                                                        <td id="c-date">{moment.utc(paymentData.paymentDate).local().format('MMM Do YYYY, h:mm a')}</td>
+                                                        <td id="c-date">{moment(paymentData.paymentDate).format('MMM Do YYYY, h:mm a')}</td>
                                                     </tr>
                                                     <tr>
                                                         <td className="fw-medium">Requested Date</td>
-                                                        <td id="c-date">{moment.utc(paymentData.createdDate).local().format('MMM Do YYYY, h:mm a')}</td>
+                                                        <td id="c-date">{moment(paymentData.createdDate).format('MMM Do YYYY, h:mm a')}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>

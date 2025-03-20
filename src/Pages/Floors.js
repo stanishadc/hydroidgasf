@@ -3,12 +3,13 @@ import SideBar from "../Common/Layouts/SideBar";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { APIConfig } from "../Common/Configurations/APIConfig";
+import config from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 const initialFieldValues = {
     floorId: "00000000-0000-0000-0000-000000000000",
     floorName: "",
-    blockId: "00000000-0000-0000-0000-000000000000"
+    blockId: "00000000-0000-0000-0000-000000000000",
+    organisationId: "00000000-0000-0000-0000-000000000000"
 };
 export default function Floors() {
     const [values, setValues] = useState(initialFieldValues);
@@ -16,6 +17,7 @@ export default function Floors() {
     const [errors, setErrors] = useState({});
     const [blocks, setBlocks] = useState([]);
     const [floors, setFloors] = useState([]);
+    const [organisations, setOrganisations] = useState([]);
     useEffect(() => {
         if (recordForEdit !== null) setValues(recordForEdit);
     }, [recordForEdit]);
@@ -53,10 +55,10 @@ export default function Floors() {
     const applicationAPI = () => {
         return {
             create: (newrecord) =>
-                axios.post(APIConfig.APIACTIVATEURL + APIConfig.CREATEFLOOR, JSON.stringify(newrecord), { ...headerconfig }),
+                axios.post(config.APIACTIVATEURL + config.CREATEFLOOR, JSON.stringify(newrecord), { ...headerconfig }),
             update: (updateRecord) =>
-                axios.put(APIConfig.APIACTIVATEURL + APIConfig.UPDATEFLOOR, updateRecord),
-            delete: (id) => axios.delete(APIConfig.APIACTIVATEURL + APIConfig.DELETEFLOOR + "/" + id, { ...headerconfig })
+                axios.put(config.APIACTIVATEURL + config.UPDATEFLOOR, updateRecord),
+            delete: (id) => axios.delete(config.APIACTIVATEURL + config.DELETEFLOOR + "/" + id, { ...headerconfig })
         };
     };
     const addOrEdit = (formData) => {
@@ -64,7 +66,6 @@ export default function Floors() {
             applicationAPI()
                 .create(formData)
                 .then((res) => {
-                    console.log(res)
                     if (res.data.statusCode === 200) {
                         handleSuccess(res.data.message);
                         resetForm();
@@ -92,19 +93,31 @@ export default function Floors() {
     };
     const resetForm = () => {
         setValues(initialFieldValues);
-    };
-    const GetBlocks = () => {
+    };    
+    const GetOrganisations = () => {
         axios
-            .get(APIConfig.APIACTIVATEURL + APIConfig.GETALLBLOCKS, { ...headerconfig })
+            .get(config.APIACTIVATEURL + config.GETALLORGANISATIONS, { ...headerconfig })
             .then((response) => {
-                if (response.data.data.succeeded === true) {
-                    setBlocks(response.data.data.data);
-                }
+                setOrganisations(response.data.data.data);
             });
     };
-    const GetFloors = () => {
+    const handleOrganisationChange = (e) => {
+        setValues({
+            ...values,
+            [e.target.name]: e.target.value,
+        });
+        GetBlocksByOrganisation(e.target.value);
+    };
+    const GetBlocksByOrganisation = (Id) => {
         axios
-            .get(APIConfig.APIACTIVATEURL + APIConfig.GETALLFLOORS, { ...headerconfig })
+            .get(config.APIACTIVATEURL + config.GETBLOCKBYORGANISATION + "/" + Id, { ...headerconfig })
+            .then((response) => {
+                setBlocks(response.data.data.data);
+            });
+    };
+    const GetFloors = (Id) => {
+        axios
+            .get(config.APIACTIVATEURL + config.GETALLFLOORS, { ...headerconfig })
             .then((response) => {
                 if (response.data.data.succeeded === true) {
                     setFloors(response.data.data.data);
@@ -115,7 +128,7 @@ export default function Floors() {
         if (window.confirm('Are you sure to delete this record?'))
             applicationAPI().delete(id)
                 .then(res => {
-                    handleSuccess("Record Deleted Succesfully");
+                    handleSuccess("Device Deleted Succesfully");
                     GetFloors();
                 })
     }
@@ -125,7 +138,7 @@ export default function Floors() {
     const applyErrorClass = (field) =>
         field in errors && errors[field] === false ? " form-control-danger" : "";
     useEffect(() => {
-        GetBlocks();
+        GetOrganisations();
         GetFloors();
     }, [])
     return (
@@ -139,13 +152,30 @@ export default function Floors() {
                             <div className="col-12">
                                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 className="mb-sm-0">Floors</h4>
+                                    <div className="page-title-right">
+                                        <ol className="breadcrumb m-0">
+                                            <li className="breadcrumb-item"><Link>Home</Link></li>
+                                            <li className="breadcrumb-item active">Floors</li>
+                                        </ol>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div className="alert alert-success">
                             <form onSubmit={handleSubmit} autoComplete="off" noValidate>
                                 <div className="row">
-                                    <div className="col-lg-3">
+                                <div className="col-lg-3">
+                                        <div className="mb-4">
+                                            <label htmlFor="organisationId" className="form-label">Organisations</label>
+                                            <select name="organisationId" value={values.organisationId} onChange={handleOrganisationChange} className={"form-select" + applyErrorClass('organisationId')}>
+                                                <option value="00000000-0000-0000-0000-000000000000">Please Select</option>
+                                                {organisations.length > 0 && organisations.map(organisation =>
+                                                    <option value={organisation.organisationId}>{organisation.organisationName}</option>
+                                                )}
+                                            </select>
+                                        </div>
+                                    </div>
+                                <div className="col-lg-3">
                                         <div className="mb-4">
                                             <label htmlFor="blockId" className="form-label">Block</label>
                                             <select name="blockId" value={values.blockId} onChange={handleInputChange} className={"form-control" + applyErrorClass('blockId')}>
@@ -181,9 +211,8 @@ export default function Floors() {
                                         <table id="example" className="table table-bordered dt-responsive nowrap table-striped align-middle" style={{ width: '100%' }}>
                                             <thead>
                                                 <tr>
-                                                    <th data-ordering="false">Floor</th>
-                                                    <th data-ordering="false">Block</th>
-                                                    <th data-ordering="false">Apartment</th>
+                                                    <th data-ordering="false">Floor Name</th>
+                                                    <th data-ordering="false">Block Name</th>
                                                     <th data-ordering="false">Organisation</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -193,19 +222,18 @@ export default function Floors() {
                                                     <tr key={floor.floorId}>
                                                         <td>{floor.floorName}</td>
                                                         <td>{floor.blockName}</td>
-                                                        <td>{floor.apartmentName}</td>
                                                         <td>{floor.organisationName}</td>
                                                         <td>
-                                                            <div className="d-flex gap-2">
-                                                                <div className="edit">
-                                                                    <Link className="dropdown-item edit-item-btn" onClick={() => { showEditDetails(floor); }}><i className="ri-pencil-fill align-bottom me-2 text-muted" /></Link>
-                                                                </div>
-                                                                <div class="remove">
-                                                                    <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, floor.floorId)}>
-                                                                        <i className="ri-delete-bin-fill align-bottom me-2 text-muted" />
+                                                            <ul className="list-inline hstack gap-2 mb-0">
+                                                                <li className="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                                                    <Link className="edit-item-btn" onClick={e => showEditDetails(floor)}><i className="ri-pencil-fill align-bottom text-muted" /></Link>
+                                                                </li>
+                                                                <li className="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Delete">
+                                                                    <Link className="remove-item-btn" onClick={e => onDelete(e, floor.floorId)}>
+                                                                        <i className="ri-delete-bin-fill align-bottom text-muted" />
                                                                     </Link>
-                                                                </div>
-                                                            </div>
+                                                                </li>
+                                                            </ul>
                                                         </td>
                                                     </tr>
                                                 )}

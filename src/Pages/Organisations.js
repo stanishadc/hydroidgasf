@@ -3,13 +3,13 @@ import SideBar from "../Common/Layouts/SideBar";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { APIConfig } from "../Common/Configurations/APIConfig";
+import config from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 const initialFieldValues = {
     organisationId: "00000000-0000-0000-0000-000000000000",
     organisationName: "",
     city: "",
-    country: "",
+    country: "India",
     contactNumber: "",
     address: ""
 };
@@ -49,8 +49,7 @@ export default function Organisations() {
                 "organisationName": values.organisationName,
                 "city": values.city,
                 "country": values.country,
-                "address": values.address,
-                "contactNumber": values.contactNumber
+                "address": values.address
             }
             addOrEdit(formData);
         }
@@ -58,10 +57,10 @@ export default function Organisations() {
     const applicationAPI = () => {
         return {
             create: (newrecord) =>
-                axios.post(APIConfig.APIACTIVATEURL + APIConfig.CREATEORGANISATION, JSON.stringify(newrecord), { ...headerconfig }),
+                axios.post(config.APIACTIVATEURL + config.CREATEORGANISATION, JSON.stringify(newrecord), { ...headerconfig }),
             update: (updateRecord) =>
-                axios.put(APIConfig.APIACTIVATEURL + APIConfig.UPDATEORGANISATION, updateRecord),
-            delete: (id) => axios.delete(APIConfig.APIACTIVATEURL + APIConfig.DELETEORGANISATION + "/" + id, { ...headerconfig })
+                axios.put(config.APIACTIVATEURL + config.UPDATEORGANISATION, updateRecord),
+            delete: (id) => axios.delete(config.APIACTIVATEURL + config.DELETEORGANISATION + "/" + id, { ...headerconfig })
         };
     };
     const addOrEdit = (formData) => {
@@ -99,11 +98,9 @@ export default function Organisations() {
     };
     const GETORGANISATIONS = () => {
         axios
-            .get(APIConfig.APIACTIVATEURL + APIConfig.GETALLORGANISATIONS, { ...headerconfig })
+            .get(config.APIACTIVATEURL + config.GETORGANISATIONS, { ...headerconfig })
             .then((response) => {
-                if (response.data.data.succeeded === true) {
                     setOrganisations(response.data.data.data);
-                }
             });
     };
     const onDelete = (e, id) => {
@@ -133,40 +130,34 @@ export default function Organisations() {
                             <div className="col-12">
                                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 className="mb-sm-0">Organisations</h4>
+                                    <div className="page-title-right">
+                                        <ol className="breadcrumb m-0">
+                                            <li className="breadcrumb-item"><Link>Home</Link></li>
+                                            <li className="breadcrumb-item active">Organisations</li>
+                                        </ol>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div className="alert alert-success">
                             <form onSubmit={handleSubmit} autoComplete="off" noValidate>
                                 <div className="row">
-                                    <div className="col-lg-3">
+                                    <div className="col-lg-2">
                                         <div className="mb-4">
                                             <label htmlFor="organisationName" className="form-label">Organisation Name</label>
                                             <input type="text" value={values.organisationName} name="organisationName" onChange={handleInputChange} className={"form-control" + applyErrorClass('organisationName')} placeholder="Organisation Name" />
                                         </div>
                                     </div>
-                                    <div className="col-lg-3">
+                                    <div className="col-lg-2">
                                         <div className="mb-4">
                                             <label htmlFor="city" className="form-label">City</label>
                                             <input type="text" value={values.city} name="city" onChange={handleInputChange} className={"form-control" + applyErrorClass('city')} placeholder="City" />
                                         </div>
                                     </div>
-                                    <div className="col-lg-3">
-                                        <div className="mb-4">
-                                            <label htmlFor="country" className="form-label">Country</label>
-                                            <input type="text" value={values.country} name="country" onChange={handleInputChange} className={"form-control" + applyErrorClass('country')} placeholder="Country" />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-3">
-                                        <div className="mb-4">
-                                            <label htmlFor="contactNumber" className="form-label">Contact Number</label>
-                                            <input type="text" value={values.contactNumber} name="contactNumber" onChange={handleInputChange} className={"form-control" + applyErrorClass('contactNumber')} placeholder="Contact Number" />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-9">
+                                    <div className="col-lg-6">
                                         <div className="mb-4">
                                             <label htmlFor="address" className="form-label">Address</label>
-                                            <input type="text" value={values.address} name="address" onChange={handleInputChange} className={"form-control" + applyErrorClass('address')} placeholder="Please Enter Address" />
+                                            <input type="text" value={values.address} name="address" onChange={handleInputChange} className={"form-control" + applyErrorClass('address')} placeholder="Address" />
                                         </div>
                                     </div>
                                     <div className="col-lg-2">
@@ -190,8 +181,7 @@ export default function Organisations() {
                                                 <tr>
                                                     <th data-ordering="false">Name</th>
                                                     <th data-ordering="false">City</th>
-                                                    <th>Country</th>
-                                                    <th>Contact Number</th>
+                                                    <th>Address</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -200,19 +190,18 @@ export default function Organisations() {
                                                     <tr key={organisation.organisationId}>
                                                         <td>{organisation.organisationName}</td>
                                                         <td>{organisation.city}</td>
-                                                        <td>{organisation.country}</td>
-                                                        <td>{organisation.contactNumber}</td>
+                                                        <td>{organisation.address}</td>
                                                         <td>
-                                                            <div className="d-flex gap-2">
-                                                                <div className="edit">
-                                                                    <Link className="dropdown-item edit-item-btn" onClick={() => { showEditDetails(organisation); }}><i className="ri-pencil-fill align-bottom me-2 text-muted" /></Link>
-                                                                </div>
-                                                                <div class="remove">
-                                                                    <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, organisation.organisationId)}>
-                                                                        <i className="ri-delete-bin-fill align-bottom me-2 text-muted" />
+                                                            <ul className="list-inline hstack gap-2 mb-0">
+                                                                <li className="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                                                    <Link className="edit-item-btn" onClick={e => showEditDetails(organisation)}><i className="ri-pencil-fill align-bottom text-muted" /></Link>
+                                                                </li>
+                                                                <li className="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Delete">
+                                                                    <Link className="remove-item-btn" onClick={e => onDelete(e, organisation.organisationId)}>
+                                                                        <i className="ri-delete-bin-fill align-bottom text-muted" />
                                                                     </Link>
-                                                                </div>
-                                                            </div>
+                                                                </li>
+                                                            </ul>
                                                         </td>
                                                     </tr>
                                                 )}

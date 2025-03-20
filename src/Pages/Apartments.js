@@ -3,7 +3,7 @@ import SideBar from "../Common/Layouts/SideBar";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { APIConfig } from "../Common/Configurations/APIConfig";
+import config from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 const initialFieldValues = {
     apartmentId: "00000000-0000-0000-0000-000000000000",
@@ -53,10 +53,10 @@ export default function Apartments() {
     const applicationAPI = () => {
         return {
             create: (newrecord) =>
-                axios.post(APIConfig.APIACTIVATEURL + APIConfig.CREATEAPARTMENT, JSON.stringify(newrecord), { ...headerconfig }),
+                axios.post(config.APIACTIVATEURL + config.CREATEAPARTMENT, JSON.stringify(newrecord), { ...headerconfig }),
             update: (updateRecord) =>
-                axios.put(APIConfig.APIACTIVATEURL + APIConfig.UPDATEAPARTMENT, updateRecord),
-            delete: (id) => axios.delete(APIConfig.APIACTIVATEURL + APIConfig.DELETEAPARTMENT + "/" + id, { ...headerconfig })
+                axios.put(config.APIACTIVATEURL + config.UPDATEAPARTMENT, updateRecord),
+            delete: (id) => axios.delete(config.APIACTIVATEURL + config.DELETEAPARTMENT + "/" + id, { ...headerconfig })
         };
     };
     const addOrEdit = (formData) => {
@@ -94,7 +94,7 @@ export default function Apartments() {
     };
     const GetApartments = () => {
         axios
-            .get(APIConfig.APIACTIVATEURL + APIConfig.GETALLAPARTMENTS, { ...headerconfig })
+            .get(config.APIACTIVATEURL + config.GETALLAPARTMENTS, { ...headerconfig })
             .then((response) => {
                 if (response.data.data.succeeded === true) {
                     setApartments(response.data.data.data);
@@ -103,7 +103,7 @@ export default function Apartments() {
     };
     const GETALLORGANISATIONS = () => {
         axios
-            .get(APIConfig.APIACTIVATEURL + APIConfig.GETALLORGANISATIONS, { ...headerconfig })
+            .get(config.APIACTIVATEURL + config.GETALLORGANISATIONS, { ...headerconfig })
             .then((response) => {
                 if (response.data.data.succeeded === true) {
                     setOrganisations(response.data.data.data);
@@ -114,7 +114,7 @@ export default function Apartments() {
         if (window.confirm('Are you sure to delete this record?'))
             applicationAPI().delete(id)
                 .then(res => {
-                    handleSuccess("Record Deleted Succesfully");
+                    handleSuccess("Device Deleted Succesfully");
                     GetApartments();
                 })
     }
@@ -138,13 +138,19 @@ export default function Apartments() {
                             <div className="col-12">
                                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 className="mb-sm-0">Apartments</h4>
+                                    <div className="page-title-right">
+                                        <ol className="breadcrumb m-0">
+                                            <li className="breadcrumb-item"><Link>Home</Link></li>
+                                            <li className="breadcrumb-item active">Apartments</li>
+                                        </ol>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div className="alert alert-success">
                             <form onSubmit={handleSubmit} autoComplete="off" noValidate>
                                 <div className="row">
-                                    <div className="col-lg-3">
+                                <div className="col-lg-3">
                                         <div className="mb-4">
                                             <label htmlFor="organisationId" className="form-label">Organisation</label>
                                             <select name="organisationId" value={values.organisationId} onChange={handleInputChange} className={"form-control" + applyErrorClass('organisationId')}>
@@ -191,15 +197,18 @@ export default function Apartments() {
                                                         <td>{apartment.apartmentName}</td>
                                                         <td>{apartment.organisationName}</td>
                                                         <td>
-                                                            <div className="d-flex gap-2">
-                                                                <div className="edit">
-                                                                    <Link className="dropdown-item edit-item-btn" onClick={() => { showEditDetails(apartment); }}><i className="ri-pencil-fill align-bottom me-2 text-muted" /></Link>
-                                                                </div>
-                                                                <div class="remove">
-                                                                    <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, apartment.apartmentId)}>
-                                                                        <i className="ri-delete-bin-fill align-bottom me-2 text-muted" />
-                                                                    </Link>
-                                                                </div>
+                                                            <div className="dropdown d-inline-block">
+                                                                <button className="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i className="ri-more-fill align-middle" />
+                                                                </button>
+                                                                <ul className="dropdown-menu dropdown-menu-end">
+                                                                    <li>
+                                                                        <li><Link className="dropdown-item edit-item-btn" onClick={() => { showEditDetails(apartment); }}><i className="ri-pencil-fill align-bottom me-2 text-muted" /> Edit</Link></li>
+                                                                        <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, apartment.apartmentId)}>
+                                                                            <i className="ri-delete-bin-fill align-bottom me-2 text-muted" /> Delete
+                                                                        </Link>
+                                                                    </li>
+                                                                </ul>
                                                             </div>
                                                         </td>
                                                     </tr>

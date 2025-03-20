@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import { UserStatus } from "../Common/Enums";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { APIConfig } from "../Common/Configurations/APIConfig";
+import config from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 import moment from "moment";
+import APIConfig from "../Common/Configurations/APIConfig";
 export default function Notifications() {
     const [notifications, setNotifications] = useState([]);
     const headerconfig = {
@@ -17,12 +18,12 @@ export default function Notifications() {
     }
     const applicationAPI = () => {
         return {
-            delete: (id) => axios.delete(APIConfig.APIACTIVATEURL + APIConfig.DELETENOTIFICATION + "/" + id, { ...headerconfig })
+            delete: (id) => axios.delete(config.APIACTIVATEURL + config.DELETENOTIFICATION + "/" + id, { ...headerconfig })
         };
     };
     const GetNotifications = () => {
         axios
-            .get(APIConfig.APIACTIVATEURL + APIConfig.GETNOTIFICATIONBYUSER + "?ToUserId=" + localStorage.getItem("userId"), { ...headerconfig })
+            .get(config.APIACTIVATEURL + config.GETNOTIFICATIONBYUSER + "?ToUserId=" + localStorage.getItem("userId"), { ...headerconfig })
             .then((response) => {
                 if (response.data.data.succeeded === true) {
                     setNotifications(response.data.data.data);
@@ -51,6 +52,12 @@ export default function Notifications() {
                             <div className="col-12">
                                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 className="mb-sm-0">Notifications</h4>
+                                    <div className="page-title-right">
+                                        <ol className="breadcrumb m-0">
+                                            <li className="breadcrumb-item"><Link>Home</Link></li>
+                                            <li className="breadcrumb-item active">Notifications</li>
+                                        </ol>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -67,6 +74,7 @@ export default function Notifications() {
                                                     <th data-ordering="false">Notification</th>
                                                     <th data-ordering="false">Notification Type</th>
                                                     <th data-ordering="false">Date</th>
+                                                    <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -75,17 +83,16 @@ export default function Notifications() {
                                                     <tr key={notification.notificationId}>
                                                         <td>{notification.notificationText}</td>
                                                         <td>{notification.type}</td>
-                                                        <td>{moment.utc(notification.createdDate).local().format('MMM Do YYYY, h:mm a')}</td>
+                                                        <td>{moment(notification.createdDate).format('MMM Do YYYY, h:mm a')}</td>
                                                         <td>
-                                                        <div className="d-flex gap-2">
-                                                                <div className="edit">
-                                                                    <Link to={"/" + notification.url} class="link-success fs-15"><i class="ri-eye-fill align-bottom me-2 text-muted"></i></Link>
-                                                                </div>
-                                                                <div className="edit">
-                                                                    <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, notification.notificationId)}>
-                                                                        <i className="ri-delete-bin-fill align-bottom me-2 text-muted" />
-                                                                    </Link>
-                                                                </div>
+                                                            {notification.status === true ? <span className="badge bg-success">{UserStatus.ACTIVE}</span> : <span className="badge bg-warning">{UserStatus.INACTIVE}</span>}
+                                                        </td>
+                                                        <td>
+                                                            <div class="hstack gap-3 flex-wrap">
+                                                            <Link to={"/" + notification.url} class="link-success fs-15"><i class="ri-eye-2-line"></i></Link>
+                                                                <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, notification.notificationId)}>
+                                                                    <i className="ri-delete-bin-fill align-bottom me-2 text-muted" />
+                                                                </Link>
                                                             </div>
                                                         </td>
                                                     </tr>

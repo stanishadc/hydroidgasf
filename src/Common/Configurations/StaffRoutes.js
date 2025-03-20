@@ -6,7 +6,6 @@ export const StaffRoutes = ({ component: Component, ...rest }) => {
     return (
         <Routes><Route{...rest}
             render={(props) => {
-                console.log("ok")
                 if (localStorage.getItem('userToken') !== null) {
                     return <Component{...props} />
                 }

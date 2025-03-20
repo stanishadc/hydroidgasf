@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { UserStatus } from "../Common/Enums";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { APIConfig } from "../Common/Configurations/APIConfig";
+import config from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 import moment from 'moment';
 const initialFieldValues = {
@@ -61,10 +61,10 @@ export default function GasPrice() {
     const applicationAPI = () => {
         return {
             create: (newrecord) =>
-                axios.post(APIConfig.APIACTIVATEURL + APIConfig.CREATEGASPRICE, JSON.stringify(newrecord), { ...headerconfig }),
+                axios.post(config.APIACTIVATEURL + config.CREATEGASPRICE, JSON.stringify(newrecord), { ...headerconfig }),
             update: (updateRecord) =>
-                axios.put(APIConfig.APIACTIVATEURL + APIConfig.UPDATEGASPRICE, updateRecord),
-            delete: (id) => axios.delete(APIConfig.APIACTIVATEURL + APIConfig.DELETEGASPRICE + "?id=" + id, { ...headerconfig })
+                axios.put(config.APIACTIVATEURL + config.UPDATEGASPRICE, updateRecord),
+            delete: (id) => axios.delete(config.APIACTIVATEURL + config.DELETEGASPRICE + "?id=" + id, { ...headerconfig })
         };
     };
     const addOrEdit = (formData) => {
@@ -104,7 +104,7 @@ export default function GasPrice() {
     };
     const GetGasPrice = () => {
         axios
-            .get(APIConfig.APIACTIVATEURL + APIConfig.GETALLGASPRICE, { ...headerconfig })
+            .get(config.APIACTIVATEURL + config.GETALLGASPRICE, { ...headerconfig })
             .then((response) => {
                 setGasPrices(response.data.data.data);
                 setGasList(response.data.data.data.length)

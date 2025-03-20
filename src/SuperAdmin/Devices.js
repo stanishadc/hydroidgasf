@@ -4,23 +4,27 @@ import { Link } from "react-router-dom";
 import { UserStatus } from "../Common/Enums";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { APIConfig } from "../Common/Configurations/APIConfig";
+import config from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 import readXlsxFile from 'read-excel-file';
+import Select from 'react-select';
 const initialFieldValues = {
-    id: 0,
-    deviceId: "",
+    deviceId: "00000000-0000-0000-0000-000000000000",
+    deviceName: "",
     applicationId: "",
-    userId: localStorage.getItem("userId"),
-    status: true
+    endDeviceId: "",
+    meterNo: 0,
+    isActive: true
 };
 export default function Devices() {
     const [values, setValues] = useState(initialFieldValues);
+    const [deviceId, setDeviceId] = useState("00000000-0000-0000-0000-000000000000");
     const [recordForEdit, setRecordForEdit] = useState(null);
     const [errors, setErrors] = useState({});
     const [devices, setDevices] = useState([]);
+    const [allDevices, setAllDevices] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
-    const [pageSize, setPageSize] = useState(10);
+    const [pageSize, setPageSize] = useState(200);
     const [pageNumber, setPageNumber] = useState(1);
     const [data, setData] = useState([]);
     const [totalRecords, setTotalRecords] = useState(0);
@@ -47,14 +51,8 @@ export default function Devices() {
     const validate = () => {
         let temp = {};
         temp.deviceId = values.deviceId === "" ? false : true;
+        temp.deviceName = values.deviceName === "" ? false : true;
         temp.applicationId = values.applicationId === "" ? false : true;
-        setErrors(temp);
-        return Object.values(temp).every((x) => x === true);
-    };
-    const validateFile = () => {
-        let temp = {};
-        const inputBD = document.getElementById('inputBD')
-        temp.inputBD = inputBD.value === "" ? false : true;
         setErrors(temp);
         return Object.values(temp).every((x) => x === true);
     };
@@ -62,11 +60,12 @@ export default function Devices() {
         e.preventDefault();
         if (validate()) {
             const formData = {
-                "id": values.id,
-                "userId": values.userId,
                 "deviceId": values.deviceId,
+                "endDeviceId": values.endDeviceId,
+                "deviceName": values.deviceName,
                 "applicationId": values.applicationId,
-                "status": values.status === "false" ? false : true
+                "isActive": values.isActive === "true" ? true : false,
+                "meterNo": values.meterNo
             }
             addOrEdit(formData);
         }
@@ -74,24 +73,24 @@ export default function Devices() {
     const applicationAPI = () => {
         return {
             create: (newrecord) =>
-                axios.post(APIConfig.APIACTIVATEURL + APIConfig.CREATEDEVICE, JSON.stringify(newrecord), { ...headerconfig }),
+                axios.post(config.APIACTIVATEURL + config.CREATEDEVICE, JSON.stringify(newrecord), { ...headerconfig }),
             update: (updateRecord) =>
-                axios.put(APIConfig.APIACTIVATEURL + APIConfig.UPDATEDEVICE, updateRecord),
-            delete: (id) => axios.delete(APIConfig.APIACTIVATEURL + APIConfig.DELETEDEVICE + "/" + id, { ...headerconfig })
+                axios.put(config.APIACTIVATEURL + config.UPDATEDEVICE, updateRecord, { ...headerconfig }),
+            delete: (id) => axios.delete(config.APIACTIVATEURL + config.DELETEDEVICE + "/" + id, { ...headerconfig })
         };
     };
     const addOrEdit = (formData) => {
-        if (formData.id === 0) {
+        if (formData.deviceId === "00000000-0000-0000-0000-000000000000") {
             applicationAPI()
                 .create(formData)
                 .then((res) => {
                     if (res.data.statusCode === 200) {
-                        handleSuccess(res.data.message);
+                        handleSuccess(res.data.data);
                         resetForm();
-                        GetDevices(pageNumber);
+                        GetDevices('1');
                     }
                     else {
-                        handleError(res.data.message);
+                        handleError(res.data.data);
                     }
                 });
         }
@@ -100,22 +99,24 @@ export default function Devices() {
                 .update(formData)
                 .then((res) => {
                     if (res.data.statusCode === 200) {
-                        handleSuccess(res.data.message);
+                        handleSuccess(res.data.data);
                         resetForm();
-                        GetDevices(pageNumber);
+                        GetDevices('1');
                     }
                     else {
-                        handleError(res.data.message);
+                        handleError(res.data.data);
                     }
                 });
         }
     };
     const resetForm = () => {
         setValues(initialFieldValues);
+        setDeviceId("00000000-0000-0000-0000-000000000000")
+        GetDevices(pageNumber)
     };
     const GetDevices = (number) => {
         axios
-            .get(APIConfig.APIACTIVATEURL + APIConfig.GETALLDEVICES + "?pageNumber=" + number + "&pageSize=" + pageSize + "", { ...headerconfig })
+            .get(config.APIACTIVATEURL + config.GETDEVICES + "?pageNumber=" + number + "&pageSize=" + pageSize + "", { ...headerconfig })
             .then((response) => {
                 if (response.data.data.succeeded === true) {
                     setDevices(response.data.data.data);
@@ -127,39 +128,23 @@ export default function Devices() {
                 }
             });
     };
+    const GetAllDevices = () => {
+        axios
+            .get(config.APIACTIVATEURL + config.GETALLDEVICES, { ...headerconfig })
+            .then((response) => {
+                setAllDevices(response.data.data);
+            });
+    };
     const onDelete = (e, id) => {
         if (window.confirm('Are you sure to delete this record?'))
             applicationAPI().delete(id)
                 .then(res => {
                     handleSuccess("Device Deleted Succesfully");
-                    GetDevices(pageNumber);
+                    GetDevices();
                 })
     }
     const showEditDetails = (data) => {
         setRecordForEdit(data);
-    };
-    const UploadBulk = (e) => {
-        if (validateFile()) {
-            const input = document.getElementById('inputBD')
-            readXlsxFile(input.files[0]).then((rows) => {
-                for (var i = 0; i < rows.length; i++) {
-                    if (i != 0) {
-                        var data = rows[i];
-                        var deviceId = data[0];
-                        var applicationId = data[1];
-                        const formData = {
-                            "id": values.id,
-                            "userId": values.userId,
-                            "deviceId": deviceId,
-                            "applicationId": applicationId,
-                            "status": values.status
-                        }
-                        addOrEdit(formData);
-                    }
-                }
-                input.value = '';
-            })
-        }
     };
     const GetLastPageData = () => {
         GetDevices(totalPages)
@@ -183,10 +168,25 @@ export default function Devices() {
             </li>
         );
     });
+    const handleSearch = (e) => {
+        e.preventDefault();
+        axios
+            .get(config.APIACTIVATEURL + config.GETDEVICEBYID + "?DeviceId=" + deviceId.value + " & pageNumber=" + pageNumber + "&pageSize=" + pageSize + "", { ...headerconfig })
+            .then((response) => {
+                if (response.data.data.succeeded === true) {
+                    setDevices(response.data.data.data);
+                    setPageNumber(response.data.data.pageNumber);
+                    setPageSize(response.data.data.pageSize);
+                    setTotalPages(response.data.data.totalPages);
+                    setTotalRecords(response.data.data.totalRecords);
+                }
+            });
+    }
     const applyErrorClass = (field) =>
         field in errors && errors[field] === false ? " form-control-danger" : "";
     useEffect(() => {
         GetDevices(pageNumber);
+        GetAllDevices();
     }, [])
     return (
         <div id="layout-wrapper">
@@ -199,32 +199,50 @@ export default function Devices() {
                             <div className="col-12">
                                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 className="mb-sm-0">Devices</h4>
+                                    <div className="page-title-right">
+                                        <ol className="breadcrumb m-0">
+                                            <li className="breadcrumb-item"><Link>Home</Link></li>
+                                            <li className="breadcrumb-item active">Devices</li>
+                                        </ol>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div className="alert alert-success">
                             <form onSubmit={handleSubmit} autoComplete="off" noValidate>
                                 <div className="row">
-                                    <div className="col-lg-3">
+                                    <div className="col-lg-2">
                                         <div className="mb-4">
-                                            <label htmlFor="deviceId" className="form-label">Device ID</label>
-                                            <input type="text" value={values.deviceId} name="deviceId" onChange={handleInputChange} className={"form-control" + applyErrorClass('deviceId')} placeholder="Device ID" />
+                                            <label htmlFor="endDeviceId" className="form-label">End Device ID</label>
+                                            <input type="text" value={values.endDeviceId} name="endDeviceId" onChange={handleInputChange} className={"form-control" + applyErrorClass('endDeviceId')} placeholder="End Device ID" />
                                         </div>
                                     </div>
-                                    <div className="col-lg-3">
+                                    <div className="col-lg-2">
+                                        <div className="mb-4">
+                                            <label htmlFor="applicationId" className="form-label">Meter For</label>
+                                            <input type="text" value={values.deviceName} name="deviceName" onChange={handleInputChange} className={"form-control" + applyErrorClass('deviceName')} placeholder="Device Name ex: d-101 bathroom" />
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-2">
                                         <div className="mb-4">
                                             <label htmlFor="applicationId" className="form-label">Application ID</label>
                                             <input type="text" value={values.applicationId} name="applicationId" onChange={handleInputChange} className={"form-control" + applyErrorClass('applicationId')} placeholder="Application ID" />
                                         </div>
                                     </div>
-                                    <div className="col-lg-3">
+                                    <div className="col-lg-2">
                                         <div className="mb-4">
                                             <label htmlFor="status" className="form-label">Status</label>
-                                            <select value={values.status} onChange={handleInputChange} placeholder="Device Status" name="status" className={"form-control" + applyErrorClass('status')}>
+                                            <select value={values.isActive} onChange={handleInputChange} placeholder="Device Status" name="isActive" className={"form-select" + applyErrorClass('status')}>
                                                 {statusvalues.map(sv =>
                                                     <option value={sv.value}>{sv.label}</option>
                                                 )}
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-2">
+                                        <div className="mb-4">
+                                            <label htmlFor="meterNo" className="form-label">Meter No</label>
+                                            <input type="number" value={values.meterNo} name="meterNo" onChange={handleInputChange} className={"form-control" + applyErrorClass('meterNo')} placeholder="0" />
                                         </div>
                                     </div>
                                     <div className="col-lg-2">
@@ -234,57 +252,64 @@ export default function Devices() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="row">
-                                    <div className="col-lg-3">
-                                        <div className="mb-4">
-                                            <label htmlFor="deviceId" className="form-label">Upload Bulk Devices</label>
-                                            <input type="file" id="inputBD" className={"form-control" + applyErrorClass('inputBD')} />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-1">
-                                        <div className="hstack gap-2 justify-content-end mb-3 mt-4">
-                                            <button type="button" onClick={e => UploadBulk(e)} className="btn btn-primary">Upload</button>
-                                        </div>
-                                    </div>
-                                </div>
                             </form>
                         </div>
                         <div className="row">
                             <div className="col-lg-12">
                                 <div className="card">
-                                    <div className="card-header">
-                                        <h5 className="card-title mb-0">Devices List</h5>
+                                    <div className="card-header align-items-center d-flex">
+                                        <h5 className="card-title mb-0 flex-grow-1">Devices List</h5>
+                                        <div className="flex-shrink-0" style={{ width: "400px" }}>
+                                            <Select
+                                                value={deviceId}
+                                                onChange={setDeviceId}
+                                                options={allDevices}
+                                                isSearchable
+                                            />
+                                        </div>
+                                        <div className="flex-shrink-0 ms-2">
+                                            <button className="btn btn-primary" onClick={e => handleSearch(e)}>Search</button>
+                                        </div>
+                                        <div className="flex-shrink-0 ms-2">
+                                            <button className="btn btn-danger" onClick={resetForm}>Clear</button>
+                                        </div>
                                     </div>
                                     <div className="card-body">
                                         <div className="table-responsive table-card">
                                             <table id="example" className="table table-bordered dt-responsive nowrap table-striped align-middle" style={{ width: '100%' }}>
                                                 <thead>
                                                     <tr>
-                                                        <th data-ordering="false">Device ID</th>
+                                                        <th data-ordering="false">ID</th>
+                                                        <th data-ordering="false">Meter For</th>
+                                                        <th data-ordering="false">EndDevice ID</th>
                                                         <th data-ordering="false">Application ID</th>
+                                                        <th data-ordering="false">MeterNo</th>
                                                         <th>Status</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {devices.length > 0 && devices.map(device =>
-                                                        <tr key={device.id}>
+                                                    {devices.length > 0 && devices.map((device, index) =>
+                                                        <tr key={device.deviceId}>
+                                                            <td>{index + 1}</td>
+                                                            <td>{device.deviceName}</td>
                                                             <td>{device.deviceId}</td>
                                                             <td>{device.applicationId}</td>
+                                                            <td>{device.meterNo}</td>
                                                             <td>
-                                                                {device.status === true ? <span className="badge bg-success">{UserStatus.ACTIVE}</span> : <span className="badge bg-warning">{UserStatus.INACTIVE}</span>}
+                                                                {device.isActive === true ? <span className="badge bg-success">{UserStatus.ACTIVE}</span> : <span className="badge bg-warning">{UserStatus.INACTIVE}</span>}
                                                             </td>
                                                             <td>
-                                                                <div className="d-flex gap-2">
-                                                                    <div className="edit">
-                                                                        <Link className="dropdown-item edit-item-btn" onClick={() => { showEditDetails(device); }}><i className="ri-pencil-fill align-bottom me-2 text-muted" /></Link>
-                                                                    </div>
-                                                                    <div class="remove">
-                                                                        <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, device.id)}>
-                                                                            <i className="ri-delete-bin-fill align-bottom me-2 text-muted" />
+                                                                <ul className="list-inline hstack gap-2 mb-0">
+                                                                    <li className="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                                                        <Link className="edit-item-btn" onClick={e => showEditDetails(device)}><i className="ri-pencil-fill align-bottom text-muted" /></Link>
+                                                                    </li>
+                                                                    <li className="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Delete">
+                                                                        <Link className="remove-item-btn" onClick={e => onDelete(e, device.deviceId)}>
+                                                                            <i className="ri-delete-bin-fill align-bottom text-muted" />
                                                                         </Link>
-                                                                    </div>
-                                                                </div>
+                                                                    </li>
+                                                                </ul>
                                                             </td>
                                                         </tr>
                                                     )}

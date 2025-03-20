@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { TicketStatus, TicketPriority } from "../Common/Enums";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import {APIConfig} from "../Common/Configurations/APIConfig";
+import APIConfig from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 import moment from "moment";
 

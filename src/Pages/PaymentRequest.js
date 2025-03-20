@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import { TicketStatus, TicketPriority } from "../Common/Enums";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import {APIConfig} from "../Common/Configurations/APIConfig";
+import config from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 import moment from "moment";
+import Select from 'react-select';
 const initialFieldValues = {
     paymentId: "00000000-0000-0000-0000-000000000000",
     transactionNo: "",
@@ -23,12 +24,14 @@ export default function PaymentRequest() {
     const [recordForEdit, setRecordForEdit] = useState(null);
     const [errors, setErrors] = useState({});
     const [users, setUsers] = useState([]);
+    const [tempUsers, setTempUsers] = useState([]);
     const [payments, setPayments] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
     const [pageSize, setPageSize] = useState(10);
     const [pageNumber, setPageNumber] = useState(1);
     const [data, setData] = useState([]);
     const [totalRecords, setTotalRecords] = useState(0);
+    const [userId, setUserId] = useState('00000000-0000-0000-0000-000000000000');
     useEffect(() => {
         if (recordForEdit !== null) setValues(recordForEdit);
     }, [recordForEdit]);
@@ -48,7 +51,7 @@ export default function PaymentRequest() {
     const validate = () => {
         let temp = {};
         temp.amount = values.amount === 0 ? false : true;
-        temp.payedUser = values.payedUser === "00000000-0000-0000-0000-000000000000" ? false : true;
+        temp.payedUser = userId === "00000000-0000-0000-0000-000000000000" ? false : true;
         setErrors(temp);
         return Object.values(temp).every((x) => x === true);
     };
@@ -60,11 +63,12 @@ export default function PaymentRequest() {
                 "transactionNo": values.transactionNo,
                 "orderId": values.orderId,
                 "paymentRequestedUser": localStorage.getItem("userId"),
-                "payedUser": values.payedUser,
+                "payedUser": userId.value,//values.payedUser,
                 "amount": values.amount,
                 "status": "PENDING",
                 "paymentType": values.paymentType,
-                "description": values.description
+                "description": values.description,
+                "organisationId": localStorage.getItem("organisationId")
             }
             addOrEdit(formData);
         }
@@ -72,19 +76,18 @@ export default function PaymentRequest() {
     const applicationAPI = () => {
         return {
             create: (newrecord) =>
-                axios.post(APIConfig.APIACTIVATEURL + APIConfig.CREATEPAYMENTREQUEST, JSON.stringify(newrecord), { ...headerconfig }),
+                axios.post(config.APIACTIVATEURL + config.CREATEPAYMENTREQUEST, JSON.stringify(newrecord), { ...headerconfig }),
             update: (updateRecord) =>
-                axios.put(APIConfig.APIACTIVATEURL + APIConfig.UPDATEPAYMENTREQUEST, updateRecord),
-            cancel: (id) => axios.delete(APIConfig.APIACTIVATEURL + APIConfig.CANCELPAYMENTREQUEST + "/" + id, { ...headerconfig })
+                axios.put(config.APIACTIVATEURL + config.UPDATEPAYMENTREQUEST, updateRecord),
+            cancel: (id) => axios.delete(config.APIACTIVATEURL + config.CANCELPAYMENTREQUEST + "/" + id, { ...headerconfig })
         };
     };
     const addOrEdit = (formData) => {
-        console.log(formData)
         if (formData.paymentId === "00000000-0000-0000-0000-000000000000") {
             applicationAPI()
                 .create(formData)
                 .then((res) => {
-                    if (res.data.statusCode === 201) {
+                    if (res.data.statusCode === 200) {
                         handleSuccess(res.data.message);
                         resetForm();
                         GetPayments("1");
@@ -97,7 +100,7 @@ export default function PaymentRequest() {
             applicationAPI()
                 .update(formData)
                 .then((res) => {
-                    if (res.data.statusCode === 201) {
+                    if (res.data.statusCode === 200) {
                         handleSuccess(res.data.message);
                         resetForm();
                         GetPayments("1");
@@ -114,16 +117,19 @@ export default function PaymentRequest() {
     const showEditDetails = (data) => {
         setRecordForEdit(data);
     };
-    const GetCustomers = () => {
+    const GetUsers = () => {
         axios
-            .get(APIConfig.APIACTIVATEURL + APIConfig.GETALLCUSTOMERS, { ...headerconfig })
+            .get(config.APIACTIVATEURL + config.GETALLORGANISATIONUSERS + "?OrganisationId=" + localStorage.getItem('organisationId'), { ...headerconfig })
             .then((response) => {
-                setUsers(response.data.data.data);
+                if (response.data.statusCode === 200) {
+                    setUsers(response.data.data);
+                    setTempUsers(response.data.data);
+                }
             });
     };
     const GetPayments = (number) => {
         axios
-            .get(APIConfig.APIACTIVATEURL + APIConfig.GETALLPAYMENTREQUESTS +"?pageNumber=" + number + "&pageSize=" + pageSize + "", { ...headerconfig })
+            .get(config.APIACTIVATEURL + config.GETALLPAYMENTREQUESTS + "?OrganisationId=" + localStorage.getItem('organisationId') + "&pageNumber=" + number + "&pageSize=" + pageSize + "", { ...headerconfig })
             .then((response) => {
                 setPayments(response.data.data.data);
                 setPageNumber(response.data.data.pageNumber);
@@ -135,7 +141,7 @@ export default function PaymentRequest() {
     };
     const GetPaymentByUser = (number) => {
         axios
-            .get(APIConfig.APIACTIVATEURL + APIConfig.GETPAYMENTREQUESTBYUSER + "?Id=" + values.payedUser + "?pageNumber=" + number + "&pageSize=" + pageSize + "", { ...headerconfig })
+            .get(config.APIACTIVATEURL + config.GETPAYMENTREQUESTBYUSER + "?Id=" + values.payedUser + "?pageNumber=" + number + "&pageSize=" + pageSize + "", { ...headerconfig })
             .then((response) => {
                 setPayments(response.data.data.data);
                 setPageNumber(response.data.data.pageNumber);
@@ -164,7 +170,7 @@ export default function PaymentRequest() {
     const GetPageData = (number) => {
         setPageNumber(number);
         if (pageNumber !== number)
-        GetPayments(number)
+            GetPayments(number)
     }
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -178,7 +184,7 @@ export default function PaymentRequest() {
         );
     });
     useEffect(() => {
-        GetCustomers();
+        GetUsers();
         GetPayments(pageNumber);
     }, [])
     return (
@@ -207,18 +213,18 @@ export default function PaymentRequest() {
                                     <div className="col-lg-3">
                                         <div className="mb-4">
                                             <label htmlFor="payedUser" className="form-label">Customer</label>
-                                            <select name="payedUser" value={values.payedUser} onChange={handleInputChange} className={"form-control" + applyErrorClass('payedUser')}>
-                                                <option value="00000000-0000-0000-0000-000000000000">Please Select</option>
-                                                {users.length > 0 && users.map(tc =>
-                                                    <option value={tc.userId}>{tc.name}</option>
-                                                )}
-                                            </select>
+                                            <Select
+                                                value={userId}
+                                                onChange={setUserId}
+                                                options={users}
+                                                isSearchable
+                                            />
                                         </div>
                                     </div>
                                     <div className="col-lg-3">
                                         <div className="mb-4">
                                             <label htmlFor="amount" className="form-label">Amount</label>
-                                            <input type="text" value={values.amount} name="amount" onChange={handleInputChange} className={"form-control" + applyErrorClass('amount')} placeholder="Amount" />
+                                            <input type="number" value={values.amount} name="amount" onChange={handleInputChange} className={"form-control" + applyErrorClass('amount')} placeholder="Amount" />
                                         </div>
                                     </div>
                                 </div>
@@ -264,16 +270,17 @@ export default function PaymentRequest() {
                                                             <td>{index + 1}</td>
                                                             <td>{ticket.name}</td>
                                                             <td>{ticket.amount}</td>
-                                                            <td>{moment.utc(ticket.createdDate).local().format('MMM Do YYYY')}</td>
+                                                            <td>{moment(ticket.createdDate).format('MMM Do YYYY')}</td>
                                                             <td>{ticket.description}</td>
                                                             <td>
                                                                 {ticket.status === 'SUCCESS' ? <span className="badge bg-success">SUCCESS</span> : <span className="badge bg-warning">PENDING</span>}
                                                             </td>
                                                             <td>
-                                                                <div class="hstack gap-3 flex-wrap">
-                                                                    <Link onClick={e => onCancel(e, ticket.paymentId)} class="link-danger fs-15"><i class="ri-delete-bin-line"></i></Link>
-                                                                </div>
-
+                                                                {ticket.status === 'SUCCESS' ? "" :
+                                                                    <div class="hstack gap-3 flex-wrap">
+                                                                        <Link onClick={e => onCancel(e, ticket.paymentId)} class="link-danger fs-15"><i class="ri-delete-bin-line"></i></Link>
+                                                                    </div>
+                                                                }
                                                             </td>
                                                         </tr>
                                                     )}

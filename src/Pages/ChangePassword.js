@@ -3,17 +3,17 @@ import SideBar from "../Common/Layouts/SideBar";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { APIConfig } from "../Common/Configurations/APIConfig";
+import config from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 const initialChangePasswordValues = {
     userId: localStorage.getItem('userId'),
     oldPassword: "",
-    newPassword: ""
+    newPassword: "",
+    confirmPassword:"",
 };
 export default function ChangePassword() {
     const [values, setValues] = useState(initialChangePasswordValues);
     const [errors, setErrors] = useState({});
-    const [confirmPassword, setConfirmPassword] = useState("")
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setValues({
@@ -35,18 +35,15 @@ export default function ChangePassword() {
         setErrors(temp);
         return Object.values(temp).every((x) => x === true);
     };
-    const handlEPasswordChange = e => {
-        setConfirmPassword(e.target.value)
-    }
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validate()) {
-            if (comparePassword(values.newPassword, confirmPassword)) {
-                initialChangePasswordValues.agentId = values.agentId
-                initialChangePasswordValues.oldPassword = values.oldPassword
-                initialChangePasswordValues.newPassword = values.newPassword
+            if (values.newPassword === values.confirmPassword) {
                 changePassword();
                 clearForm();
+            }
+            else{
+                handleError("New and Confirm Passwords should be same");
             }
         }
     };
@@ -54,18 +51,18 @@ export default function ChangePassword() {
         applicationAPI().postchangepassword(changePasswordData)
             .then(res => {
                 if (res.data.statusCode === 200) {
-                    handleSuccess(res.data.response.message);
+                    handleSuccess(res.data.data);
                     clearForm();
                 }
                 else {
-                    handleError(res.data.response.message);
+                    handleError(res.data.data);
                 }
             })
     }
     const applicationAPI = () => {
         return {
             postchangepassword: () =>
-                axios.post(APIConfig.APIACTIVATEURL + APIConfig.CHANGEPASSWORD + "?UserId=" + localStorage.getItem("userId") + "&OldPassword=" + initialChangePasswordValues.oldPassword + "&NewPassword=" + initialChangePasswordValues.newPassword, { ...headerconfig })
+                axios.post(config.APIACTIVATEURL + config.CHANGEPASSWORD + "?UserId=" + localStorage.getItem("userId") + "&OldPassword=" + values.oldPassword + "&NewPassword=" + values.newPassword, { ...headerconfig })
         };
     };
     const comparePassword = (newPassword, confirmPassword) => {
@@ -76,11 +73,7 @@ export default function ChangePassword() {
         return true;
     }
     const clearForm = () => {
-        values.oldPassword = "";
-        values.newPassword = "";
-        setConfirmPassword("");
-        values.confirmPassword = "";
-        
+        setValues(initialChangePasswordValues);
     };
     const applyErrorClass = (field) =>
         field in errors && errors[field] === false ? " form-control-danger" : "";
@@ -95,6 +88,12 @@ export default function ChangePassword() {
                             <div className="col-12">
                                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 className="mb-sm-0">Change Password</h4>
+                                    <div className="page-title-right">
+                                        <ol className="breadcrumb m-0">
+                                            <li className="breadcrumb-item"><Link>Home</Link></li>
+                                            <li className="breadcrumb-item active">Change Password</li>
+                                        </ol>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -116,7 +115,7 @@ export default function ChangePassword() {
                                     <div className="col-lg-3">
                                         <div className="mb-3">
                                             <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-                                            <input type="password" value={values.confirmPassword} name="confirmPassword" onChange={handlEPasswordChange} className={"form-control" + applyErrorClass('confirmPassword')} placeholder="Confirm Password" />
+                                            <input type="password" value={values.confirmPassword} name="confirmPassword" onChange={handleInputChange} className={"form-control" + applyErrorClass('confirmPassword')} placeholder="Confirm Password" />
                                         </div>
                                     </div>
                                     <div className="col-lg-2">

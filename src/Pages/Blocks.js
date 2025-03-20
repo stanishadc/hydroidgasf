@@ -3,18 +3,18 @@ import SideBar from "../Common/Layouts/SideBar";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { APIConfig } from "../Common/Configurations/APIConfig";
+import config from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 const initialFieldValues = {
     blockId: "00000000-0000-0000-0000-000000000000",
     blockName: "",
-    apartmentId: "00000000-0000-0000-0000-000000000000"
+    organisationId: "00000000-0000-0000-0000-000000000000"
 };
 export default function Blocks() {
     const [values, setValues] = useState(initialFieldValues);
     const [recordForEdit, setRecordForEdit] = useState(null);
     const [errors, setErrors] = useState({});
-    const [apartments, setApartments] = useState([]);
+    const [organisations, setOrganisations] = useState([]);
     const [blocks, setBlocks] = useState([]);
     useEffect(() => {
         if (recordForEdit !== null) setValues(recordForEdit);
@@ -45,7 +45,7 @@ export default function Blocks() {
             const formData = {
                 "blockId": values.blockId,
                 "blockName": values.blockName,
-                "apartmentId": values.apartmentId
+                "organisationId": values.organisationId
             }
             addOrEdit(formData);
         }
@@ -53,14 +53,13 @@ export default function Blocks() {
     const applicationAPI = () => {
         return {
             create: (newrecord) =>
-                axios.post(APIConfig.APIACTIVATEURL + APIConfig.CREATEBLOCK, JSON.stringify(newrecord), { ...headerconfig }),
+                axios.post(config.APIACTIVATEURL + config.CREATEBLOCK, JSON.stringify(newrecord), { ...headerconfig }),
             update: (updateRecord) =>
-                axios.put(APIConfig.APIACTIVATEURL + APIConfig.UPDATEBLOCK, updateRecord),
-            delete: (id) => axios.delete(APIConfig.APIACTIVATEURL + APIConfig.DELETEBLOCK + "/" + id, { ...headerconfig })
+                axios.put(config.APIACTIVATEURL + config.UPDATEBLOCK, updateRecord),
+            delete: (id) => axios.delete(config.APIACTIVATEURL + config.DELETEBLOCK + "/" + id, { ...headerconfig })
         };
     };
     const addOrEdit = (formData) => {
-        console.log(formData)
         if (formData.blockId === "00000000-0000-0000-0000-000000000000") {
             applicationAPI()
                 .create(formData)
@@ -93,18 +92,18 @@ export default function Blocks() {
     const resetForm = () => {
         setValues(initialFieldValues);
     };
-    const GetApartments = () => {
+    const GetOrganisations = () => {
         axios
-            .get(APIConfig.APIACTIVATEURL + APIConfig.GETALLAPARTMENTS, { ...headerconfig })
+            .get(config.APIACTIVATEURL + config.GETALLORGANISATIONS, { ...headerconfig })
             .then((response) => {
                 if (response.data.data.succeeded === true) {
-                    setApartments(response.data.data.data);
+                    setOrganisations(response.data.data.data);
                 }
             });
     };
     const GetBlocks = () => {
         axios
-            .get(APIConfig.APIACTIVATEURL + APIConfig.GETALLBLOCKS, { ...headerconfig })
+            .get(config.APIACTIVATEURL + config.GETALLBLOCKS, { ...headerconfig })
             .then((response) => {
                 if (response.data.data.succeeded === true) {
                     setBlocks(response.data.data.data);
@@ -115,7 +114,7 @@ export default function Blocks() {
         if (window.confirm('Are you sure to delete this record?'))
             applicationAPI().delete(id)
                 .then(res => {
-                    handleSuccess("Record Deleted Succesfully");
+                    handleSuccess("Device Deleted Succesfully");
                     GetBlocks();
                 })
     }
@@ -125,7 +124,7 @@ export default function Blocks() {
     const applyErrorClass = (field) =>
         field in errors && errors[field] === false ? " form-control-danger" : "";
     useEffect(() => {
-        GetApartments();
+        GetOrganisations();
         GetBlocks();
     }, [])
     return (
@@ -139,19 +138,25 @@ export default function Blocks() {
                             <div className="col-12">
                                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                                     <h4 className="mb-sm-0">Blocks</h4>
+                                    <div className="page-title-right">
+                                        <ol className="breadcrumb m-0">
+                                            <li className="breadcrumb-item"><Link>Home</Link></li>
+                                            <li className="breadcrumb-item active">Blocks</li>
+                                        </ol>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div className="alert alert-success">
                             <form onSubmit={handleSubmit} autoComplete="off" noValidate>
                                 <div className="row">
-                                    <div className="col-lg-3">
+                                <div className="col-lg-3">
                                         <div className="mb-4">
-                                            <label htmlFor="apartmentId" className="form-label">Apartment</label>
-                                            <select name="apartmentId" value={values.apartmentId} onChange={handleInputChange} className={"form-control" + applyErrorClass('apartmentId')}>
+                                            <label htmlFor="organisationId" className="form-label">Organisation</label>
+                                            <select name="organisationId" value={values.organisationId} onChange={handleInputChange} className={"form-control" + applyErrorClass('organisationId')}>
                                                 <option value="00000000-0000-0000-0000-000000000000">Please Select</option>
-                                                {apartments.length > 0 && apartments.map(apartment =>
-                                                    <option value={apartment.apartmentId}>{apartment.apartmentName}</option>
+                                                {organisations.length > 0 && organisations.map(organisation =>
+                                                    <option value={organisation.organisationId}>{organisation.organisationName}</option>
                                                 )}
                                             </select>
                                         </div>
@@ -175,14 +180,13 @@ export default function Blocks() {
                             <div className="col-lg-12">
                                 <div className="card">
                                     <div className="card-header">
-                                        <h5 className="card-title mb-0">Apartments List</h5>
+                                        <h5 className="card-title mb-0">Blocks List</h5>
                                     </div>
                                     <div className="card-body">
                                         <table id="example" className="table table-bordered dt-responsive nowrap table-striped align-middle" style={{ width: '100%' }}>
                                             <thead>
                                                 <tr>
                                                     <th data-ordering="false">Block Name</th>
-                                                    <th data-ordering="false">Apartment</th>
                                                     <th data-ordering="false">Organisation</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -191,19 +195,18 @@ export default function Blocks() {
                                                 {blocks.length > 0 && blocks.map(block =>
                                                     <tr key={block.blockId}>
                                                         <td>{block.blockName}</td>
-                                                        <td>{block.apartmentName}</td>
                                                         <td>{block.organisationName}</td>
                                                         <td>
-                                                            <div className="d-flex gap-2">
-                                                                <div className="edit">
-                                                                    <Link className="dropdown-item edit-item-btn" onClick={() => { showEditDetails(block); }}><i className="ri-pencil-fill align-bottom me-2 text-muted" /></Link>
-                                                                </div>
-                                                                <div class="remove">
-                                                                    <Link className="dropdown-item remove-item-btn" onClick={e => onDelete(e, block.blockId)}>
-                                                                        <i className="ri-delete-bin-fill align-bottom me-2 text-muted" />
+                                                            <ul className="list-inline hstack gap-2 mb-0">
+                                                                <li className="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                                                    <Link className="edit-item-btn" onClick={e => showEditDetails(block)}><i className="ri-pencil-fill align-bottom text-muted" /></Link>
+                                                                </li>
+                                                                <li className="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Delete">
+                                                                    <Link className="remove-item-btn" onClick={e => onDelete(e, block.blockId)}>
+                                                                        <i className="ri-delete-bin-fill align-bottom text-muted" />
                                                                     </Link>
-                                                                </div>
-                                                            </div>
+                                                                </li>
+                                                            </ul>
                                                         </td>
                                                     </tr>
                                                 )}

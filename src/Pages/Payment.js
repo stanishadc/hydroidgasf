@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {APIConfig} from "../Common/Configurations/APIConfig";
+import config from "../Common/Configurations/APIConfig";
 export default function Payment() {
     function loadScript(src) {
         return new Promise((resolve) => {
@@ -25,22 +25,21 @@ export default function Payment() {
         }
 
         // creating a new order
-        const result = await axios.post(APIConfig.APIACTIVATEURL + "Payment/ProcessRequestOrder?UserId=6aa8a589-66f9-4c3b-a193-81ee6cc12057&Amount=500");
+        const result = await axios.post(config.APIACTIVATEURL + "Payment/ProcessRequestOrder?UserId=6aa8a589-66f9-4c3b-a193-81ee6cc12057&Amount=500");
 
         if (!result) {
             alert("Server error. Are you online?");
             return;
         }
-        console.log(result)
         // Getting the order details back
-        const { amount, id: order_id, currency } = result.data.data;
+        const { amount, id: order_id, currency,razorpayKey,name } = result.data.data;
 
         const options = {
-            key: APIConfig.RAZORPAY_KEY_ID,
+            key: razorpayKey,
             amount: amount,
             currency: currency,
-            name: "Soumya Corp.",
-            description: "Test Transaction",
+            name: name,
+            description: "Gas Bill Transaction",
             order_id: order_id,
             handler: async function (response) {
                 const data = {
@@ -49,7 +48,7 @@ export default function Payment() {
                     razorpayOrderId: response.razorpay_order_id,
                     razorpaySignature: response.razorpay_signature,
                 };
-                const result = await axios.post(APIConfig.LOCALWEBURL + "payment", data);
+                const result = await axios.post(config.LOCALWEBURL + "payment", data);
             },
             prefill: {
                 name: "Hari Babu",
@@ -57,7 +56,7 @@ export default function Payment() {
                 contact: "9999999999",
             },
             notes: {
-                address: "Hydroid Water Meter",
+                address: "Hydroid Gas Meter",
             },
             theme: {
                 color: "#61dafb",

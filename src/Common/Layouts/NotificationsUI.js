@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {APIConfig} from "../Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Layouts/CustomAlerts";
 import moment from "moment";
+import APIConfig from "../Configurations/APIConfig";
 export default function Notifications() {
   const [notificationUnRead, setNotificationsUnRead] = useState([]);
   const [notificationRead, setNotificationsRead] = useState([]);
@@ -18,19 +18,13 @@ export default function Notifications() {
     return {
       delete: (id) =>
         axios.delete(
-          APIConfig.APIACTIVATEURL + APIConfig.DELETENOTIFICATION + "/" + id,
-          { ...headerconfig }
+          APIConfig.APIACTIVATEURL + APIConfig.DELETENOTIFICATION + "/" + id, { ...headerconfig }
         ),
     };
   };
   const GetUnReadNotifications = () => {
     axios
-      .get(
-        APIConfig.APIACTIVATEURL +
-        APIConfig.GETNOTIFICATIONUNREAD +
-          "?ToUserId=" +
-          localStorage.getItem("userId"),
-        { ...headerconfig }
+      .get(APIConfig.APIACTIVATEURL + APIConfig.GETNOTIFICATIONUNREAD +"?ToUserId=" + localStorage.getItem("userId"), { ...headerconfig }
       )
       .then((response) => {
         if (response.data.data.succeeded === true) {
@@ -41,13 +35,7 @@ export default function Notifications() {
   };
   const GetReadNotifications = () => {
     axios
-      .get(
-        APIConfig.APIACTIVATEURL +
-        APIConfig.GETNOTIFICATIONREAD +
-          "?ToUserId=" +
-          localStorage.getItem("userId"),
-        { ...headerconfig }
-      )
+      .get(APIConfig.APIACTIVATEURL + APIConfig.GETNOTIFICATIONREAD +"?ToUserId=" +localStorage.getItem("userId"), { ...headerconfig })
       .then((response) => {
         if (response.data.data.succeeded === true) {
           setNotificationsRead(response.data.data.data);
@@ -99,54 +87,11 @@ export default function Notifications() {
                   Notifications
                 </h6>
               </div>
-              <div className="col-auto dropdown-tabs">
-                <span className="badge badge-soft-light fs-13">
-                  {notificationCount} New
-                </span>
-              </div>
             </div>
           </div>
-          <div className="px-2 pt-2">
-            <ul
-              className="nav nav-tabs dropdown-tabs nav-tabs-custom"
-              data-dropdown-tabs="true"
-              id="notificationItemsTab"
-              role="tablist"
-            >
-              <li className="nav-item waves-effect waves-light">
-                <a
-                  className="nav-link active"
-                  data-bs-toggle="tab"
-                  href="#all-noti-tab"
-                  role="tab"
-                  aria-selected="true"
-                >
-                  UNREAD ({notificationCount})
-                </a>
-              </li>
-              <li className="nav-item waves-effect waves-light">
-                <a
-                  className="nav-link"
-                  data-bs-toggle="tab"
-                  href="#messages-tab"
-                  role="tab"
-                  aria-selected="false"
-                >
-                  READ
-                </a>
-              </li>
-            </ul>
-          </div>
         </div>
-        <div
-          className="tab-content position-relative"
-          id="notificationItemsTabContent"
-        >
-          <div
-            className="tab-pane fade show active py-2 ps-2"
-            id="all-noti-tab"
-            role="tabpanel"
-          >
+        <div className="tab-content position-relative">
+          <div className="tab-pane fade show active py-2 ps-2">
             <div style={{ maxHeight: 300 }} className="pe-2">
               {notificationUnRead.length > 0 &&
                 notificationUnRead.map((notification) => (

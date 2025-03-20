@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { TicketStatus, TicketPriority } from "../Common/Enums";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import {APIConfig} from "../Common/Configurations/APIConfig";
+import config from "../Common/Configurations/APIConfig";
 import { handleSuccess, handleError } from "../Common/Layouts/CustomAlerts";
 import moment from "moment";
 const initialFieldValues = {
@@ -68,15 +68,14 @@ export default function Payments() {
     };
     const applicationAPI = () => {
         return {
-            update: (updateRecord) => axios.put(APIConfig.APIACTIVATEURL + APIConfig.UPDATEPAYMENTREQUEST, updateRecord)
+            update: (updateRecord) => axios.put(config.APIACTIVATEURL + config.UPDATEPAYMENTREQUEST, updateRecord)
         };
     };
     const addOrEdit = (formData) => {
-        console.log(formData)
         applicationAPI()
             .update(formData)
             .then((res) => {
-                if (res.data.statusCode === 201) {
+                if (res.data.statusCode === 200) {
                     handleSuccess("Payment Successfully Received");
                     resetForm();
                     GetPaymentByUser("1");
@@ -92,7 +91,7 @@ export default function Payments() {
     };
     const GetPaymentByUser = (number) => {
         axios
-            .get(APIConfig.APIACTIVATEURL + APIConfig.GETPAYMENTREQUESTBYUSER + "?Id=" + localStorage.getItem('userId') + "&pageNumber=" + number + "&pageSize=" + pageSize + "", { ...headerconfig })
+            .get(config.APIACTIVATEURL + config.GETPAYMENTREQUESTBYUSER + "?Id=" + localStorage.getItem('userId') + "&pageNumber=" + number + "&pageSize=" + pageSize + "", { ...headerconfig })
             .then((response) => {
                 setPayments(response.data.data.data);
                 setPageNumber(response.data.data.pageNumber);
@@ -126,21 +125,21 @@ export default function Payments() {
         }
 
         // creating a new order
-        const result = await axios.post(APIConfig.APIACTIVATEURL + APIConfig.PROCESSPAYMENTORDER + "?UserId=" + localStorage.getItem('userId') + "&Amount=" + ticket.amount);
+        const result = await axios.post(config.APIACTIVATEURL + config.PROCESSPAYMENTORDER + "?UserId=" + localStorage.getItem('userId') + "&Amount=" + ticket.amount);
 
         if (!result) {
             alert("Server error. Are you online?");
             return;
         }
         // Getting the order details back
-        const { amount, id: order_id, currency } = result.data.data;
+        const { amount, id: order_id, currency,name, razorpayKey } = result.data.data;
 
         const options = {
-            key: APIConfig.RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
+            key: razorpayKey, // Enter the Key ID generated from the Dashboard
             amount: amount,
             currency: currency,
             name: "ino-fi solutions pvt ltd.",
-            description: "Water Bill Payment",
+            description: "Gas Bill Payment",
             order_id: order_id,
             handler: async function (response) {
                 const data = {
@@ -149,8 +148,6 @@ export default function Payments() {
                     razorpayOrderId: response.razorpay_order_id,
                     razorpaySignature: response.razorpay_signature,
                 };
-                console.log(response)
-                console.log(response.razorpay_payment_id);
                 ticket.transactionNo = response.razorpay_payment_id;
                 ticket.orderId = response.razorpay_order_id
                 ticket.status = "SUCCESS";
@@ -243,7 +240,7 @@ export default function Payments() {
                                                             <td>{index + 1}</td>
                                                             <td>{p.name}</td>
                                                             <td>{p.amount}</td>
-                                                            <td>{moment.utc(p.createdDate).local().format('MMM Do YYYY')}</td>
+                                                            <td>{moment(p.createdDate).format('MMM Do YYYY')}</td>
                                                             <td>{p.description}</td>
                                                             <td>
                                                                 {p.status === 'SUCCESS' ? <span className="badge bg-success">PAID</span> : <span className="badge bg-warning">PENDING</span>}
